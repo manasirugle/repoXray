@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build && mkdir -p frontend/out && cp -r out/* frontend/out/ || true"
+  publish = "frontend/out"
+
+[build.environment]
+  NODE_VERSION = "20"
+  SECRETS_SCAN_ENABLED = "false"
+

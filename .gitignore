@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+backend/venv/
+venv/
+.env
+.env.local
+.env.*
+user_mappings.json
+
+# Next.js build
+.next/
+out/
+build/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# System files
+.DS_Store
+Thumbs.db
+run.txt
