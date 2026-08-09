@@ -192,7 +192,7 @@ const CoverflowCarousel: React.FC = () => {
   );
 
   return (
-    <section className="lp-coverflow-section" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => { if (pauseTimeout.current) clearTimeout(pauseTimeout.current); pauseTimeout.current = setTimeout(() => setIsPaused(false), 3800); }}>
+    <section id="coverflow" className="lp-coverflow-section" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => { if (pauseTimeout.current) clearTimeout(pauseTimeout.current); pauseTimeout.current = setTimeout(() => setIsPaused(false), 3800); }}>
       <div className="lp-section-inner">
         <div className="lp-section-header">
           <h2 className="lp-section-title">Everything You Need to Review Code</h2>

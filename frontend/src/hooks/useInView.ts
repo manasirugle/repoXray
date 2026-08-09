@@ -13,7 +13,7 @@ export function useInView({
   rootMargin = "0px 0px -10% 0px",
   once = true,
 }: UseInViewOptions = {}) {
-  const ref = useRef<HTMLElement | null>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
 
   useEffect(() => {

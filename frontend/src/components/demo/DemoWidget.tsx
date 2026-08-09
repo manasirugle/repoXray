@@ -25,9 +25,8 @@ export default function DemoWidget() {
   }, []);
 
   const getIsOpen = useCallback(() => isManualOpen, [isManualOpen]);
-  const getIsInterrupted = useCallback(() => isManualOpen, [isManualOpen]);
 
-  const { start, stop } = useDemoLoop(handleStateChange, getIsOpen, getIsInterrupted);
+  const { start, stop } = useDemoLoop(handleStateChange, getIsOpen);
 
   // Start loop on mount
   useEffect(() => {

@@ -340,8 +340,24 @@ export default function Home() {
     };
     window.addEventListener("scroll", handleScroll);
 
+    // Intersection Observer for section reveal animations
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("lp-visible");
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    const sections = document.querySelectorAll(".lp-section");
+    sections.forEach((section) => observer.observe(section));
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
     };
   }, [user]);
 
@@ -780,16 +796,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="coverflow" className="lp-section">
-            <div className="lp-section-inner">
-              <div className="lp-section-header">
-                <h2 className="lp-section-title">Everything You Need to Review Code</h2>
-                <p className="lp-section-desc">Enterprise-grade AI analysis meets elegant developer experience.</p>
-              </div>
-
-              <CoverflowCarousel />
-            </div>
-          </section>
+        <CoverflowCarousel />
 
         <section id="how-it-works" className="lp-section lp-section-alt">
             <div className="lp-section-inner">
@@ -830,12 +837,7 @@ export default function Home() {
               <p className="lp-section-desc">Engineered with industry-leading frameworks and infrastructure.</p>
             </div>
 
-            <div className="lp-tech-marquee">
-              <div className="lp-tech-grid">
-                {/* Replaced static cards with a horizontal marquee of icons only */}
-                <TechMarquee />
-              </div>
-            </div>
+            <TechMarquee />
           </div>
       </section>
 
