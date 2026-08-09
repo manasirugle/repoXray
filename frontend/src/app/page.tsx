@@ -38,6 +38,8 @@ import {
   Menu,
   GitCompareArrows
 } from "lucide-react";
+import TechMarquee from "@/components/TechMarquee";
+import CoverflowCarousel from "@/components/CoverflowCarousel";
 import type { User } from "firebase/auth";
 import { auth, signInWithGoogle, logoutUser, getIdToken, onAuthStateChanged } from "../config/firebase";
 import Markdown from "../components/Markdown";
@@ -154,7 +156,6 @@ export default function Home() {
 
   // Landing page scroll state
   const [scrolled, setScrolled] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
 
   // Dark mode theme state
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -339,24 +340,8 @@ export default function Home() {
     };
     window.addEventListener("scroll", handleScroll);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.target.id) {
-            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    setTimeout(() => {
-      document.querySelectorAll(".reveal-section").forEach((el) => observer.observe(el));
-    }, 100);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      observer.disconnect();
     };
   }, [user]);
 
@@ -684,7 +669,7 @@ export default function Home() {
               <span className="lp-nav-name">REPO<span className="lp-nav-name-accent">XRAY</span></span>
             </div>
             <div className="lp-nav-links">
-              <a href="#features" className="lp-nav-link">Features</a>
+              <a href="#coverflow" className="lp-nav-link">Features</a>
               <a href="#how-it-works" className="lp-nav-link">How It Works</a>
               <a href="#tech-stack" className="lp-nav-link">Tech Stack</a>
             </div>
@@ -733,7 +718,7 @@ export default function Home() {
                 </svg>
                 <span>Start with Google</span>
               </button>
-              <a href="#features" className="lp-hero-cta-secondary">
+              <a href="#coverflow" className="lp-hero-cta-secondary">
                 <span>Explore Features</span>
                 <ChevronRight size={16} />
               </a>
@@ -795,60 +780,26 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ====== FEATURES SECTION ====== */}
-        <section id="features" className={`lp-section reveal-section ${visibleSections.has("features") ? "lp-visible" : ""}`}>
-          <div className="lp-section-inner">
-            <div className="lp-section-header">
-              <span className="lp-section-badge">Platform Capabilities</span>
-              <h2 className="lp-section-title">Everything You Need to <span className="lp-gradient-text">Review Code</span></h2>
-              <p className="lp-section-desc">Enterprise-grade AI analysis meets elegant developer experience.</p>
-            </div>
+        <section id="coverflow" className="lp-section">
+            <div className="lp-section-inner">
+              <div className="lp-section-header">
+                <h2 className="lp-section-title">Everything You Need to Review Code</h2>
+                <p className="lp-section-desc">Enterprise-grade AI analysis meets elegant developer experience.</p>
+              </div>
 
-            <div className="lp-features-grid">
-              <div className="lp-feature-card">
-                <div className="lp-feature-icon lp-fi-indigo"><Bot size={24} /></div>
-                <h3 className="lp-feature-title">AI Architecture Analysis</h3>
-                <p className="lp-feature-desc">Gemini deep-reasons over your entire codebase to produce master architectural overviews with dependency mapping.</p>
-              </div>
-              <div className="lp-feature-card">
-                <div className="lp-feature-icon lp-fi-rose"><Shield size={24} /></div>
-                <h3 className="lp-feature-title">Vulnerability Detection</h3>
-                <p className="lp-feature-desc">Automated security audits with severity classification — Critical, High, Medium, Low — across every file.</p>
-              </div>
-              <div className="lp-feature-card">
-                <div className="lp-feature-icon lp-fi-cyan"><MessageSquare size={24} /></div>
-                <h3 className="lp-feature-title">RAG Chat Console</h3>
-                <p className="lp-feature-desc">Ask questions about your codebase in natural language. Powered by pgvector semantic search and Gemini reasoning.</p>
-              </div>
-              <div className="lp-feature-card">
-                <div className="lp-feature-icon lp-fi-amber"><Zap size={24} /></div>
-                <h3 className="lp-feature-title">Real-time Pipeline</h3>
-                <p className="lp-feature-desc">Live Map-Reduce streaming with terminal logs. Watch your repository being analyzed file-by-file in real-time.</p>
-              </div>
-              <div className="lp-feature-card">
-                <div className="lp-feature-icon lp-fi-violet"><FileDown size={24} /></div>
-                <h3 className="lp-feature-title">PDF Report Export</h3>
-                <p className="lp-feature-desc">One-click comprehensive PDF reports with architecture overviews, security audits, and file-level analysis.</p>
-              </div>
-              <div className="lp-feature-card">
-                <div className="lp-feature-icon lp-fi-emerald"><Lock size={24} /></div>
-                <h3 className="lp-feature-title">Multi-Tenant Isolation</h3>
-                <p className="lp-feature-desc">Firebase Auth with user-scoped data. Every engineer sees only their own repositories and reports.</p>
-              </div>
+              <CoverflowCarousel />
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* ====== HOW IT WORKS SECTION ====== */}
-        <section id="how-it-works" className={`lp-section lp-section-alt reveal-section ${visibleSections.has("how-it-works") ? "lp-visible" : ""}`}>
-          <div className="lp-section-inner">
-            <div className="lp-section-header">
-              <span className="lp-section-badge">Simple Workflow</span>
-              <h2 className="lp-section-title">Three Steps to <span className="lp-gradient-text">Code Intelligence</span></h2>
-              <p className="lp-section-desc">From repository URL to comprehensive AI analysis in minutes.</p>
-            </div>
+        <section id="how-it-works" className="lp-section lp-section-alt">
+            <div className="lp-section-inner">
+              <div className="lp-section-header">
+                <span className="lp-section-badge">Simple Workflow</span>
+                <h2 className="lp-section-title">Three Steps to <span className="lp-gradient-text">Code Intelligence</span></h2>
+                <p className="lp-section-desc">From repository URL to comprehensive AI analysis in minutes.</p>
+              </div>
 
-            <div className="lp-steps">
+              <div className="lp-steps">
               <div className="lp-step">
                 <div className="lp-step-number">01</div>
                 <div className="lp-step-connector" />
@@ -871,7 +822,7 @@ export default function Home() {
         </section>
 
         {/* ====== TECH STACK SECTION ====== */}
-        <section id="tech-stack" className={`lp-section reveal-section ${visibleSections.has("tech-stack") ? "lp-visible" : ""}`}>
+        <section id="tech-stack" className="lp-section">
           <div className="lp-section-inner">
             <div className="lp-section-header">
               <span className="lp-section-badge">Built With</span>
@@ -879,45 +830,18 @@ export default function Home() {
               <p className="lp-section-desc">Engineered with industry-leading frameworks and infrastructure.</p>
             </div>
 
-            <div className="lp-tech-grid">
-              <div className="lp-tech-card">
-                <Layers size={28} className="lp-tech-icon" />
-                <span className="lp-tech-name">Next.js</span>
-                <span className="lp-tech-role">Frontend</span>
-              </div>
-              <div className="lp-tech-card">
-                <Zap size={28} className="lp-tech-icon" />
-                <span className="lp-tech-name">FastAPI</span>
-                <span className="lp-tech-role">Backend</span>
-              </div>
-              <div className="lp-tech-card">
-                <Database size={28} className="lp-tech-icon" />
-                <span className="lp-tech-name">PostgreSQL</span>
-                <span className="lp-tech-role">Database</span>
-              </div>
-              <div className="lp-tech-card">
-                <Search size={28} className="lp-tech-icon" />
-                <span className="lp-tech-name">pgvector</span>
-                <span className="lp-tech-role">Vector Search</span>
-              </div>
-              <div className="lp-tech-card">
-                <Bot size={28} className="lp-tech-icon" />
-                <span className="lp-tech-name">Gemini</span>
-                <span className="lp-tech-role">AI Engine</span>
-              </div>
-              <div className="lp-tech-card">
-                <Shield size={28} className="lp-tech-icon" />
-                <span className="lp-tech-name">Firebase</span>
-                <span className="lp-tech-role">Auth</span>
+            <div className="lp-tech-marquee">
+              <div className="lp-tech-grid">
+                {/* Replaced static cards with a horizontal marquee of icons only */}
+                <TechMarquee />
               </div>
             </div>
           </div>
-        </section>
+      </section>
 
         {/* ====== CTA SECTION ====== */}
-        <section className={`lp-section reveal-section ${visibleSections.has("tech-stack") ? "lp-visible" : ""}`}>
-          <div className="lp-cta-block">
-
+        <section className="lp-section">
+            <div className="lp-cta-block">
             <h2 className="lp-cta-title">Ready to Elevate Your Code Reviews?</h2>
             <p className="lp-cta-desc">Join engineers who trust RepoXray for AI-powered code intelligence.</p>
             <button onClick={handleSignIn} className="lp-cta-btn">
@@ -1303,6 +1227,29 @@ export default function Home() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* AUTHENTICATED LANDING PAGE SECTIONS */}
+        {!selectedRepoUrl && !reportLoading && (
+          <>
+            <CoverflowCarousel />
+
+            <section id="tech-stack" className="lp-section">
+              <div className="lp-section-inner">
+                <div className="lp-section-header">
+                  <span className="lp-section-badge">Built With</span>
+                  <h2 className="lp-section-title">Modern <span className="lp-gradient-text">Tech Stack</span></h2>
+                  <p className="lp-section-desc">Engineered with industry-leading frameworks and infrastructure.</p>
+                </div>
+
+                <div className="lp-tech-marquee">
+                  <div className="lp-tech-grid">
+                    <TechMarquee />
+                  </div>
+                </div>
+              </div>
+            </section>
+          </>
         )}
 
         {/* LOADING REPO STATE */}

@@ -5,6 +5,85 @@
   --text-primary: #000;
   --text-secondary: #666;
 
+  /* Landing-page scoped accent overrides (Bright mode)
+     - Primary: light blue #60A5FA
+     - Secondary: sky blue #38BDF8
+     These override global accent variables only within the landing page. */
+  --border-glass-hover: #60A5FA;
+  --border-active: #60A5FA;
+  --accent-indigo: #60A5FA;
+  --accent-violet: #38BDF8;
+  --accent-fuchsia: #7dd3fc;
+  --gradient-primary: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+  --gradient-accent: linear-gradient(135deg, var(--accent-violet), var(--accent-fuchsia));
+  --gradient-glow: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet), var(--accent-fuchsia));
+  --shadow-neon: 0 4px 14px rgba(96,165,250,0.08);
+  --shadow-neon-strong: 0 6px 20px rgba(96,165,250,0.15);
+
+
+/* Bright-mode overrides for orange utility classes scoped to landing page */
+.page .text-orange-600 {
+  background: linear-gradient(90deg, #60A5FA, #38BDF8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.page .bg-orange-100 {
+  background: linear-gradient(90deg, #60A5FA, #38BDF8) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+.page .px-2.py-1.rounded-md.bg-orange-100, .page .rounded-md.bg-orange-100.px-2.py-1 {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+}
+
+/* Demo widget button/badge overrides on landing page (bright) */
+.page .demo-btn-primary {
+  background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(96,165,250,0.25) !important;
+}
+
+.page .demo-badge-accent {
+  background: rgba(96,165,250,0.08) !important;
+  border: 1px solid rgba(56,189,248,0.18) !important;
+  color: #38BDF8 !important;
+}
+
+/* Dark-mode landing page overrides: dark blue -> pink */
+.dark .page {
+  --border-glass-hover: #1E3A8A;
+  --border-active: #1E3A8A;
+  --accent-indigo: #1E3A8A;
+  --accent-violet: #EC4899;
+  --accent-fuchsia: #d946ef;
+  --gradient-primary: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
+  --gradient-accent: linear-gradient(135deg, var(--accent-violet), var(--accent-fuchsia));
+  --gradient-glow: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet), var(--accent-fuchsia));
+  --shadow-neon: 0 4px 18px rgba(30,58,138,0.18);
+  --shadow-neon-strong: 0 6px 26px rgba(236,72,153,0.20);
+}
+
+.dark .page .text-orange-600 {
+  background: linear-gradient(90deg, #1E3A8A, #EC4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent !important;
+}
+
+.dark .page .bg-orange-100 {
+  background: linear-gradient(90deg, #1E3A8A, #EC4899) !important;
+  color: #ffffff !important;
+  border-color: transparent !important;
+}
+
+.dark .page .demo-btn-primary {
+  background: linear-gradient(135deg, #1E3A8A 0%, #EC4899 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(30,58,138,0.22) !important;
+}
   --button-primary-hover: #383838;
   --button-secondary-hover: #f2f2f2;
   --button-secondary-border: #ebebeb;
