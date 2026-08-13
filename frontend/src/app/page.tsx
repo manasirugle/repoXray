@@ -134,7 +134,7 @@ export default function Home() {
   const [selectedRepoUrl, setSelectedRepoUrl] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<"overview" | "security" | "files" | "chat">("overview");
 
-  // Phase 2 feature preview modal (holds the feature title, or null when closed)
+  // Feature preview modal for unfinished tabs such as Architecture Diff.
   const [phaseTwoFeature, setPhaseTwoFeature] = useState<string | null>(null);
 
   // Firebase Auth State
@@ -1508,14 +1508,14 @@ export default function Home() {
                 <span>Security Audit</span>
               </button>
               <button
-                onClick={() => setPhaseTwoFeature("File Explorer")}
+                onClick={() => setActiveTab("files")}
                 className={`tab-btn ${activeTab === "files" ? "tab-btn-active" : ""}`}
               >
                 <FileCode2 size={16} />
                 <span>File Explorer</span>
               </button>
               <button
-                onClick={() => setPhaseTwoFeature("AI Chat Console")}
+                onClick={() => setActiveTab("chat")}
                 className={`tab-btn ${activeTab === "chat" ? "tab-btn-active" : ""}`}
               >
                 <MessageSquare size={16} />
