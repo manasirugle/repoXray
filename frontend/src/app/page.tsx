@@ -7,6 +7,7 @@ import {
   Shield,
   FileCode2,
   MessageSquare,
+  ArrowLeft,
   ArrowRight,
   Database,
   History,
@@ -144,7 +145,8 @@ export default function Home() {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   
   // Mobile layout menu & dropdown states
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // Keep repository history visible on initial load, especially on narrow viewports.
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(true);
   const [showMobileUserDropdown, setShowMobileUserDropdown] = useState(false);
   const mobileDropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -201,6 +203,8 @@ export default function Home() {
   // Loaded Repo Reports
   const [report, setReport] = useState<RepoReport | null>(null);
   const [reportLoading, setReportLoading] = useState(false);
+  const isRepoWorkspaceActive = Boolean(selectedRepoUrl || reportLoading || pipelineStatus);
+  const isHistorySidebarVisible = mobileMenuOpen;
 
   // File Details Drawer
   const [selectedFile, setSelectedFile] = useState<SelectedFileDetails | null>(null);
@@ -508,6 +512,7 @@ export default function Home() {
   // 3. Fetch Full Reports (Overview, Security, File list)
   const fetchRepoReport = async (repoUrl: string, currentUser: User | null = user) => {
     if (!currentUser) return;
+    setMobileMenuOpen(false);
     setReportLoading(true);
     setPipelineStatus(null);
     try {
@@ -535,6 +540,7 @@ export default function Home() {
     setIsSubmitting(true);
     setSubmitError(null);
     setReport(null);
+    setMobileMenuOpen(false);
 
     const targetUrl = repoInput.trim();
 
@@ -884,7 +890,7 @@ export default function Home() {
       {/* -------------------- SIDEBAR HISTORICAL TRACKER -------------------- */}
       <aside 
         className={`sidebar-historical border-r border-glass flex flex-col transition-transform duration-300 ease-in-out ${
-          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          isHistorySidebarVisible ? "translate-x-0 sidebar-historical-visible" : "-translate-x-full sidebar-historical-collapsed"
         }`}
       >
         {/* Brand */}
@@ -1091,7 +1097,16 @@ export default function Home() {
         <main className="flex-1 flex flex-col bg-deep overflow-hidden p-6 md:p-8 scrollbar relative">
           {/* UNIFIED WORKSPACE TOPBAR */}
           <header className="workspace-topbar">
-            <div className="topbar-welcome" />
+            <div className="topbar-welcome">
+              <button
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-glass bg-white/[0.01] text-secondary hover:text-white hover:bg-white/[0.03] transition-colors text-xs font-semibold"
+                title={isHistorySidebarVisible ? "Hide Repository History" : "Show Repository History"}
+              >
+                <History size={14} />
+                <span>{isHistorySidebarVisible ? "Hide History" : "Show History"}</span>
+              </button>
+            </div>
 
           <div className="flex items-center gap-3">
             <button
@@ -1165,7 +1180,7 @@ export default function Home() {
               Submit a GitHub repository URL below. Our system shallow-clones, runs static defense analyzers, chunks vector embeddings, and builds a comprehensive architectural and security blueprint.
             </p>
 
-            <form onSubmit={handleIngestSubmit} className="w-full glass-panel p-6 bg-white/[0.02] glow-active mb-4">
+            <form onSubmit={handleIngestSubmit} className="w-full glass-panel p-6 bg-white/[0.02] glow-active mb-4" aria-busy={isSubmitting}>
               <div className="flex flex-col gap-3">
                 <div className="flex flex-col md:flex-row gap-3">
                   <input
@@ -1180,12 +1195,36 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={isSubmitting || !repoInput.trim()}
-                    className="glass-btn shrink-0"
+                    className={`glass-btn shrink-0 min-w-[220px] ${isSubmitting ? "opacity-95 cursor-wait" : ""}`}
                   >
-                    <span>Analyze Repository</span>
-                    <ArrowRight size={16} />
+                    {isSubmitting ? (
+                      <>
+                        <RefreshCw size={16} className="animate-spin" />
+                        <span>Starting Analysis...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Analyze Repository</span>
+                        <ArrowRight size={16} />
+                      </>
+                    )}
                   </button>
                 </div>
+
+                {isSubmitting && (
+                  <div className="rounded-xl border border-violet-500/20 bg-violet-500/8 px-4 py-3">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-violet-300">
+                      <RefreshCw size={14} className="animate-spin" />
+                      <span>Linking repository and preparing the analysis pipeline...</span>
+                    </div>
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/8">
+                      <div className="h-full w-1/3 rounded-full bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 animate-pulse" />
+                    </div>
+                    <p className="mt-2 text-[11px] text-secondary">
+                      This can take a moment while RepoXray validates the URL and starts ingestion.
+                    </p>
+                  </div>
+                )}
                 
                 {submitError && (
                   <div className="text-xs text-rose-400 mt-2 flex items-center gap-1.5">
@@ -1236,7 +1275,7 @@ export default function Home() {
           <>
             <CoverflowCarousel />
 
-            <section id="tech-stack" className="lp-section">
+            <section id="tech-stack" className="lp-section workspace-tech-section">
               <div className="lp-section-inner">
                 <div className="lp-section-header">
                   <span className="lp-section-badge">Built With</span>
@@ -1440,7 +1479,22 @@ export default function Home() {
             {/* Header Dashboard Info Bar */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-glass pb-6">
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <button
+                    onClick={() => {
+                      stopStatusPolling();
+                      setSelectedFile(null);
+                      setSelectedRepoUrl(null);
+                      setReport(null);
+                      setPipelineStatus(null);
+                      setMobileMenuOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border border-glass bg-white/[0.01] text-secondary hover:text-white hover:bg-white/[0.03] transition-colors text-xs font-semibold"
+                    title="Back to Repository Input"
+                  >
+                    <ArrowLeft size={12} />
+                    <span>Back</span>
+                  </button>
                   <span className="text-[10px] uppercase font-extrabold tracking-widest text-violet-400 px-2 py-0.5 bg-violet-600/10 border border-violet-500/20 rounded">
                     active repository
                   </span>

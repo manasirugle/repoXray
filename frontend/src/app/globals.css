@@ -2533,6 +2533,35 @@ h2, h3, h4 {
   display: block;
 }
 
+.workspace-tech-section .lp-section-inner {
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.workspace-tech-section .lp-section-header {
+  max-width: 720px;
+  margin: 0 auto 48px;
+}
+
+.workspace-tech-section .lp-section-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.workspace-tech-section .lp-tech-marquee {
+  width: min(100%, 900px);
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.workspace-tech-section .lp-tech-grid {
+  width: 100%;
+}
+
 .tech-marquee-wrapper {
   width: 100%;
   display: flex;
@@ -3917,6 +3946,22 @@ h2, h3, h4 {
     z-index: 10 !important;
     background-color: var(--bg-surface) !important;
     display: flex !important;
+  }
+
+  .sidebar-historical.sidebar-historical-collapsed {
+    width: 0 !important;
+    min-width: 0 !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    border-right: none !important;
+    pointer-events: none !important;
+  }
+
+  .sidebar-historical.sidebar-historical-visible {
+    width: 320px !important;
+    min-width: 320px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
   }
 }
 
