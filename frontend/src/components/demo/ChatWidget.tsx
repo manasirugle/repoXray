@@ -31,7 +31,7 @@ export default function ChatWidget({
  
   const header = (
     <div className="flex items-center gap-3 px-4 pt-3 pb-0 shrink-0 border-b border-black/5 pb-2">
-      <div className="flex items-center justify-center w-8 h-8 rounded-lg demo-avatar-bg text-sm font-bold shrink-0 shadow-sm">
+      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--accent-violet)] text-white text-sm font-bold shrink-0 shadow-sm">
         Ω
       </div>
       <div className="flex-1 min-w-0">
@@ -104,8 +104,6 @@ export default function ChatWidget({
           zIndex: 998,
           color: "#1f2937",
           animation: "fadeIn 0.35s ease forwards",
-          backgroundImage:
-            "repeating-linear-gradient(0deg,transparent,transparent 39px,#f0ece4 39px,#f0ece4 40px), repeating-linear-gradient(90deg,transparent,transparent 39px,#f0ece4 39px,#f0ece4 40px)",
           backgroundColor: "rgba(255,255,255,0.97)",
           pointerEvents: "auto",
         }}
@@ -135,9 +133,6 @@ export default function ChatWidget({
         zIndex: isMaximized ? 99999 : 9998,
         color: "#1f2937",
         animation: "fadeIn 0.35s ease forwards",
-        /* subtle grid-line background */
-        backgroundImage:
-          "repeating-linear-gradient(0deg,transparent,transparent 39px,#f0ece4 39px,#f0ece4 40px), repeating-linear-gradient(90deg,transparent,transparent 39px,#f0ece4 39px,#f0ece4 40px)",
         backgroundColor: "rgba(255,255,255,0.97)",
       }}
     >

@@ -82,7 +82,7 @@ const CoverflowCarousel: React.FC = () => {
     setActiveIndex(index);
     setIsPaused(true);
     if (pauseTimeout.current) clearTimeout(pauseTimeout.current);
-    pauseTimeout.current = setTimeout(() => setIsPaused(false), 3800);
+    pauseTimeout.current = setTimeout(() => setIsPaused(false), 4200);
   };
 
   const nextSlide = () => {
@@ -95,7 +95,7 @@ const CoverflowCarousel: React.FC = () => {
 
   useEffect(() => {
     if (isPaused) return;
-    const timer = setInterval(nextSlide, 3400);
+    const timer = setInterval(nextSlide, 3800);
     return () => clearInterval(timer);
   }, [isPaused]);
 
@@ -120,7 +120,7 @@ const CoverflowCarousel: React.FC = () => {
     } else if (delta < -48) {
       nextSlide();
     }
-    pauseTimeout.current = setTimeout(() => setIsPaused(false), 3800);
+    pauseTimeout.current = setTimeout(() => setIsPaused(false), 4200);
   };
 
   const slideItems = useMemo(
@@ -137,40 +137,40 @@ const CoverflowCarousel: React.FC = () => {
         let pointerEvents: "auto" | "none" = "none";
 
         if (distance === 0) {
-          transform += " translateZ(0px) scale(1) rotateY(0deg)";
+          transform += " translateX(0px) scale(1)";
           opacity = 1;
           zIndex = 50;
           boxShadow = "0 30px 90px rgba(15, 23, 42, 0.22)";
           pointerEvents = "auto";
         } else if (distance === -1) {
-          transform += " translateX(-120px) translateZ(-90px) scale(0.86) rotateY(25deg)";
-          opacity = 0.84;
+          transform += " translateX(-72px) scale(0.96)";
+          opacity = 0.72;
           zIndex = 40;
           boxShadow = "0 22px 70px rgba(15, 23, 42, 0.16)";
           pointerEvents = "auto";
         } else if (distance === 1) {
-          transform += " translateX(120px) translateZ(-90px) scale(0.86) rotateY(-25deg)";
-          opacity = 0.84;
+          transform += " translateX(72px) scale(0.96)";
+          opacity = 0.72;
           zIndex = 40;
           boxShadow = "0 22px 70px rgba(15, 23, 42, 0.16)";
           pointerEvents = "auto";
         } else if (distance === -2) {
-          transform += " translateX(-220px) translateZ(-160px) scale(0.72) rotateY(32deg)";
-          opacity = 0.68;
+          transform += " translateX(-140px) scale(0.92)";
+          opacity = 0.42;
           zIndex = 30;
           boxShadow = "0 18px 58px rgba(15, 23, 42, 0.13)";
         } else if (distance === 2) {
-          transform += " translateX(220px) translateZ(-160px) scale(0.72) rotateY(-32deg)";
-          opacity = 0.68;
+          transform += " translateX(140px) scale(0.92)";
+          opacity = 0.42;
           zIndex = 30;
           boxShadow = "0 18px 58px rgba(15, 23, 42, 0.13)";
         } else if (distance === -3) {
-          transform += " translateX(-320px) translateZ(-240px) scale(0.58) rotateY(36deg)";
-          opacity = 0.52;
+          transform += " translateX(-200px) scale(0.9)";
+          opacity = 0.2;
           zIndex = 20;
         } else if (distance === 3) {
-          transform += " translateX(320px) translateZ(-240px) scale(0.58) rotateY(-36deg)";
-          opacity = 0.52;
+          transform += " translateX(200px) scale(0.9)";
+          opacity = 0.2;
           zIndex = 20;
         }
 
@@ -192,7 +192,7 @@ const CoverflowCarousel: React.FC = () => {
   );
 
   return (
-    <section id="coverflow" className="lp-coverflow-section" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => { if (pauseTimeout.current) clearTimeout(pauseTimeout.current); pauseTimeout.current = setTimeout(() => setIsPaused(false), 3800); }}>
+    <section id="coverflow" className="lp-coverflow-section" onPointerDown={handlePointerDown} onPointerUp={handlePointerUp} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => { if (pauseTimeout.current) clearTimeout(pauseTimeout.current); pauseTimeout.current = setTimeout(() => setIsPaused(false), 4200); }}>
       <div className="lp-section-inner">
         <div className="lp-section-header">
           <h2 className="lp-section-title">Everything You Need to Review Code</h2>
@@ -211,22 +211,8 @@ const CoverflowCarousel: React.FC = () => {
                 onClick={() => handleInteraction(slide.index)}
               >
                 <div className="coverflow-card">
-                  <div className={`coverflow-preview coverflow-preview-${slide.variant}`}>
-                    <div className={`coverflow-logo-badge ${slide.accentClass}`}>
-                      <slide.logo size={20} />
-                    </div>
-                    <div className="coverflow-screen-mock">
-                      <div className="coverflow-screen-header">
-                        <span />
-                        <span className="coverflow-screen-title-bar" />
-                      </div>
-                      <div className="coverflow-screen-highlight" />
-                      <div className="coverflow-screen-lines">
-                        <span className="coverflow-screen-line" />
-                        <span className="coverflow-screen-line short" />
-                        <span className="coverflow-screen-line" />
-                      </div>
-                    </div>
+                  <div className={`coverflow-logo-badge ${slide.accentClass}`}>
+                    <slide.logo size={24} />
                   </div>
                   <div className="coverflow-card-body">
                     <span className="coverflow-card-category">{slide.label}</span>

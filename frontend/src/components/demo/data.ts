@@ -16,8 +16,8 @@ export const TABS: Tab[] = [
   { id: "diff", icon: "⇄", label: "Architecture Diff" },
 ];
 
-// Only the first 3 tabs auto-cycle in the demo
-export const CYCLING_TABS: TabId[] = ["architecture", "files", "chat"];
+// Only the shipped tabs auto-cycle in the demo
+export const CYCLING_TABS: TabId[] = ["architecture", "security", "files", "chat"];
 
 export type TabContent =
   | { type: "architecture" }

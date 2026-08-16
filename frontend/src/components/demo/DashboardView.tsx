@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { TabId, TABS, CYCLING_TABS, REPO_FILES, REPO_ISSUES, REPO_NAME, REPO_OWNER_PATH } from "./data";
 
 interface DashboardViewProps {
@@ -11,26 +12,43 @@ interface DashboardViewProps {
 // ── Tab content panels ─────────────────────────────────────────────────────
 
 function ArchitecturePanel() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => setStep(1), 400);
+    const timer2 = setTimeout(() => setStep(2), 1200);
+    const timer3 = setTimeout(() => setStep(3), 2000);
+    const timer4 = setTimeout(() => setStep(4), 2800);
+    return () => { clearTimeout(timer1); clearTimeout(timer2); clearTimeout(timer3); clearTimeout(timer4); };
+  }, []);
+
   return (
     <div className="p-4 space-y-3" key="architecture">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide demo-badge-accent px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-blue-500/10 text-blue-600 border border-blue-500/25 px-2 py-1 rounded-md w-fit">
         <span>✦</span>
         <span>Master Architect Overview</span>
       </div>
-      <p className="text-sm font-semibold text-gray-800">Global Project Overview: HireReady</p>
-      <p className="text-xs text-[#737373] leading-relaxed">
-        Firebase-backed auth, a Map-Reduce ingestion pipeline, and pgvector retrieval for resume matching.
-      </p>
+      
+      {step >= 1 && (
+        <p className="text-sm font-semibold text-gray-800 animate-fade-in">Global Project Overview: HireReady</p>
+      )}
+      {step >= 1 && (
+        <p className="text-xs text-[#737373] leading-relaxed animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          Firebase-backed auth, a Map-Reduce ingestion pipeline, and pgvector retrieval for resume matching.
+        </p>
+      )}
       <div className="space-y-1.5 mt-2">
         {[
-          { path: "auth/", desc: "Firebase JWT verification" },
-          { path: "services/", desc: "Map-Reduce pipeline" },
-          { path: "rag/", desc: "pgvector similarity search" },
-        ].map(({ path, desc }) => (
-          <div key={path} className="text-xs font-mono">
-            <span className="font-semibold text-blue-600 dark:text-sky-400">{path}</span>
-            <span className="text-[#737373] italic"> {desc}</span>
-          </div>
+          { path: "auth/", desc: "Firebase JWT verification", minStep: 2 },
+          { path: "services/", desc: "Map-Reduce pipeline", minStep: 3 },
+          { path: "rag/", desc: "pgvector similarity search", minStep: 4 },
+        ].map(({ path, desc, minStep }) => (
+          step >= minStep ? (
+            <div key={path} className="text-xs font-mono animate-fade-in">
+              <span className="font-semibold text-blue-600 dark:text-sky-400">{path}</span>
+              <span className="text-[#737373] italic"> {desc}</span>
+            </div>
+          ) : null
         ))}
       </div>
     </div>
@@ -38,47 +56,80 @@ function ArchitecturePanel() {
 }
 
 function SecurityPanel() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const total = REPO_ISSUES;
+    const duration = 1500;
+    const intervalTime = duration / total;
+    let current = 0;
+    const interval = setInterval(() => {
+      if (current < total) {
+        current++;
+        setCount(current);
+      } else {
+        clearInterval(interval);
+      }
+    }, intervalTime);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="p-4 space-y-3" key="security">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide demo-badge-accent px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-red-500/10 text-red-600 border border-red-500/25 px-2 py-1 rounded-md w-fit">
         <span>◈</span>
         <span>Security Audit</span>
       </div>
       <div className="flex items-center gap-3 flex-wrap">
-        <span className="px-2 py-1 rounded-md bg-red-100 text-red-600 text-xs font-semibold">CRITICAL ×2</span>
-        <span className="px-2 py-1 rounded-md bg-gradient-to-r from-orange-300 via-orange-400 to-orange-600 text-white text-xs font-semibold">HIGH ×8</span>
-        <span className="px-2 py-1 rounded-md bg-yellow-100 text-yellow-600 text-xs font-semibold">MEDIUM ×14</span>
+        {count >= 2 && <span className="px-2 py-1 rounded-md bg-red-100 text-red-600 text-xs font-semibold animate-fade-in">CRITICAL ×2</span>}
+        {count >= 10 && <span className="px-2 py-1 rounded-md bg-orange-100 text-orange-600 text-xs font-semibold animate-fade-in">HIGH ×8</span>}
+        {count >= 24 && <span className="px-2 py-1 rounded-md bg-yellow-100 text-yellow-600 text-xs font-semibold animate-fade-in">MEDIUM ×14</span>}
       </div>
-      <p className="text-xs text-[#737373] leading-relaxed">
-        37 issues found across 21 files. Most critical: exposed API keys in environment config and unvalidated file upload endpoints.
-      </p>
+      {count === REPO_ISSUES && (
+        <p className="text-xs text-[#737373] leading-relaxed animate-fade-in">
+          {count} issues found across {REPO_FILES} files. Most critical: exposed API keys in environment config and unvalidated file upload endpoints.
+        </p>
+      )}
     </div>
   );
 }
 
 function FilesPanel() {
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStep((s) => (s < 5 ? s + 1 : s));
+    }, 400);
+    return () => clearInterval(timer);
+  }, []);
+
+  const items = [
+    { indent: 0, icon: "▶", label: "src/", bold: true },
+    { indent: 1, icon: "▶", label: "auth/", bold: true },
+    { indent: 2, icon: "–", label: "middleware.ts" },
+    { indent: 1, icon: "▶", label: "rag/", bold: true },
+    { indent: 2, icon: "–", label: "embeddings.ts" },
+  ];
+
   return (
     <div className="p-4 space-y-2" key="files">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide demo-badge-accent px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-blue-500/10 text-blue-600 border border-blue-500/25 px-2 py-1 rounded-md w-fit">
         <span>≡</span>
         <span>File Explorer</span>
       </div>
       <div className="font-mono text-xs text-gray-700 space-y-1">
-        {[
-          { indent: 0, icon: "▶", label: "src/", bold: true },
-          { indent: 1, icon: "▶", label: "auth/", bold: true },
-          { indent: 2, icon: "–", label: "middleware.ts" },
-          { indent: 1, icon: "▶", label: "rag/", bold: true },
-          { indent: 2, icon: "–", label: "embeddings.ts" },
-        ].map(({ indent, icon, label, bold }, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-1"
-            style={{ paddingLeft: `${indent * 14}px` }}
-          >
-            <span className="text-blue-500 font-bold">{icon}</span>
-            <span className={bold ? "font-semibold text-gray-800" : ""}>{label}</span>
-          </div>
+        {items.map(({ indent, icon, label, bold }, i) => (
+          i < step ? (
+            <div
+              key={i}
+              className="flex items-center gap-1 animate-fade-in"
+              style={{ paddingLeft: `${indent * 14}px` }}
+            >
+              <span className="text-blue-500 font-bold">{icon}</span>
+              <span className={bold ? "font-semibold text-gray-800" : ""}>{label}</span>
+            </div>
+          ) : null
         ))}
       </div>
     </div>
@@ -86,19 +137,49 @@ function FilesPanel() {
 }
 
 function ChatPanel() {
+  const [text, setText] = useState("");
+  const fullText = "In auth/middleware.ts — 24h TTL, refresh isn't rate-limited.";
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    const timer1 = setTimeout(() => setStep(1), 600); // User message appears
+    const timer2 = setTimeout(() => setStep(2), 1200); // AI starts typing
+    return () => { clearTimeout(timer1); clearTimeout(timer2); };
+  }, []);
+
+  useEffect(() => {
+    if (step === 2) {
+      let i = 0;
+      const interval = setInterval(() => {
+        if (i <= fullText.length) {
+          setText(fullText.slice(0, i));
+          i++;
+        } else {
+          clearInterval(interval);
+        }
+      }, 30);
+      return () => clearInterval(interval);
+    }
+  }, [step]);
+
   return (
     <div className="p-4 space-y-3" key="chat">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide demo-badge-accent px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-cyan-500/10 text-cyan-600 border border-cyan-500/25 px-2 py-1 rounded-md w-fit">
         <span>↺</span>
         <span>AI Chat Console</span>
       </div>
       <div className="flex flex-col gap-2">
-        <div className="self-end max-w-[85%] bg-[#1a1a1a] text-white text-xs px-3 py-2 rounded-2xl rounded-br-sm leading-relaxed shadow-sm">
-          Where is session expiry handled?
-        </div>
-        <div className="self-start max-w-[85%] bg-[#e8f4ed] text-[#1a3d2b] text-xs px-3 py-2 rounded-2xl rounded-bl-sm leading-relaxed shadow-sm">
-          In auth/middleware.ts — 24h TTL, refresh isn't rate-limited.
-        </div>
+        {step >= 1 && (
+          <div className="self-end max-w-[85%] bg-[#1D4ED8] text-white text-xs px-3 py-2 rounded-2xl rounded-br-sm leading-relaxed shadow-sm animate-fade-in">
+            Where is session expiry handled?
+          </div>
+        )}
+        {step >= 2 && (
+          <div className="self-start max-w-[85%] bg-[#e8f4ed] text-[#1a3d2b] text-xs px-3 py-2 rounded-2xl rounded-bl-sm leading-relaxed shadow-sm border border-gray-200">
+            {text}
+            {text.length < fullText.length && <span className="inline-block w-1 h-3 bg-gray-400 ml-0.5 animate-pulse" />}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -107,7 +188,7 @@ function ChatPanel() {
 function DiffPanel() {
   return (
     <div className="p-4 space-y-2" key="diff">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide demo-badge-accent px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-blue-500/10 text-blue-600 border border-blue-500/25 px-2 py-1 rounded-md w-fit">
         <span>⇄</span>
         <span>Architecture Diff</span>
       </div>
@@ -149,7 +230,7 @@ export default function DashboardView({ activeTab, tabCycleIndex, onTabClick }: 
         {/* Stats header */}
         <div className="px-4 pt-3 pb-2 border-b border-[#e5e5e5] flex items-start justify-between gap-2 shrink-0">
           <div className="flex-1 min-w-0">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 demo-badge-accent rounded-md text-[10px] font-semibold mb-1.5">
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 badge bg-blue-500/10 text-blue-600 border-blue-500/25 rounded-md text-[10px] font-semibold mb-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-current inline-block animate-pulse" />
               ACTIVE REPOSITORY
             </div>
@@ -162,7 +243,7 @@ export default function DashboardView({ activeTab, tabCycleIndex, onTabClick }: 
               <p className="text-[9px] font-semibold text-[#a3a3a3] uppercase tracking-wide">Code Files</p>
             </div>
             <div>
-              <p className="text-lg font-bold text-pink-600 dark:text-emerald-400 leading-none">{REPO_ISSUES}</p>
+              <p className="text-lg font-bold text-blue-600 leading-none">{REPO_ISSUES}</p>
               <p className="text-[9px] font-semibold text-[#a3a3a3] uppercase tracking-wide">Issues Found</p>
             </div>
           </div>
@@ -177,10 +258,10 @@ export default function DashboardView({ activeTab, tabCycleIndex, onTabClick }: 
                 <button
                   key={tab.id}
                   onClick={() => onTabClick(tab.id)}
-                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[11px] font-medium whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-semibold whitespace-nowrap transition-colors duration-300 ease-in-out border ${
                     isActive
-                      ? "demo-btn-primary shadow-sm font-semibold"
-                      : "text-[#737373] hover:bg-[#f6f1e7] hover:text-gray-700"
+                      ? "bg-[var(--accent-violet)] text-white border-[var(--accent-violet)] shadow-[0_4px_12px_rgba(59,130,246,0.12)]"
+                      : "bg-white text-gray-500 border-gray-200 hover:bg-gray-50 hover:text-gray-800"
                   }`}
                 >
                   <span className="text-[10px]">{tab.icon}</span>
@@ -195,24 +276,22 @@ export default function DashboardView({ activeTab, tabCycleIndex, onTabClick }: 
         <div
           key={activeTab}
           className="flex-1 overflow-auto bg-white m-3 rounded-xl border border-[#e5e5e5] shadow-sm"
-          style={{ animation: "crossFadeIn 0.25s ease forwards" }}
+          style={{ animation: "crossFadeIn 0.45s ease-in-out forwards" }}
         >
           {PANEL_MAP[activeTab]}
         </div>
 
         {/* Dot pagination */}
         <div className="flex items-center justify-center gap-1.5 pb-3 shrink-0">
-          {CYCLING_TABS.map((_, i) => (
+          {TABS.map((tab, i) => (
             <span
               key={i}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                i === tabCycleIndex ? "w-4 demo-btn-primary" : "w-1.5 bg-[#e5e5e5]"
+              className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ease-in-out ${
+                i === tabCycleIndex && CYCLING_TABS.includes(tab.id) 
+                  ? "w-4 bg-[var(--accent-violet)]" 
+                  : "w-1.5 bg-[#e5e5e5]"
               }`}
             />
-          ))}
-          {/* Extra dots for tabs 4 & 5 (always inactive in auto-cycle) */}
-          {[0, 1].map((i) => (
-            <span key={`extra-${i}`} className="w-1.5 h-1.5 rounded-full bg-[#e5e5e5]" />
           ))}
         </div>
       </div>
