@@ -115,7 +115,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://coderecall.o
 
 // Review-version flag: PDF export and repo refresh stay fully implemented but are
 // hidden from the UI while this is false. Set to true to show the buttons again.
-const SHOW_PDF_AND_REFRESH_ACTIONS = false;
+const SHOW_PDF_AND_REFRESH_ACTIONS = true;
 const ADMIN_EMAIL = "aryankale1410@gmail.com";
 
 const FUNNY_EXCUSES = [
