@@ -46,6 +46,7 @@ import { auth, signInWithGoogle, logoutUser, getIdToken, onAuthStateChanged } fr
 import Markdown from "../components/Markdown";
 import CodeViewer from "../components/CodeViewer";
 import ChatPanel from "../components/ChatPanel";
+import ArchitectureDiffPanel from "../components/ArchitectureDiffPanel";
 import { generatePdf } from "../components/PdfExport";
 import PhaseTwoModal from "../components/PhaseTwoModal";
 
@@ -133,9 +134,9 @@ export default function Home() {
   // Navigation & Workspace State
   const [repos, setRepos] = useState<Repository[]>([]);
   const [selectedRepoUrl, setSelectedRepoUrl] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "security" | "files" | "chat">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "security" | "files" | "chat" | "diff">("overview");
 
-  // Feature preview modal for unfinished tabs such as Architecture Diff.
+  // Feature preview modal for unfinished dashboard features.
   const [phaseTwoFeature, setPhaseTwoFeature] = useState<string | null>(null);
 
   // Firebase Auth State
@@ -1576,8 +1577,8 @@ export default function Home() {
                 <span>AI Chat Console</span>
               </button>
               <button
-                onClick={() => setPhaseTwoFeature("Architecture Diff")}
-                className="tab-btn"
+                onClick={() => setActiveTab("diff")}
+                className={`tab-btn ${activeTab === "diff" ? "tab-btn-active" : ""}`}
               >
                 <GitCompareArrows size={16} />
                 <span>Architecture Diff</span>
@@ -1738,6 +1739,10 @@ export default function Home() {
                 <div className="animate-fade-in">
                   <ChatPanel repoUrl={selectedRepoUrl} user={user} />
                 </div>
+              )}
+
+              {activeTab === "diff" && (
+                <ArchitectureDiffPanel repoUrl={selectedRepoUrl} user={user} />
               )}
             </div>
           </div>

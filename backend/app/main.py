@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 from fastapi import FastAPI, Depends, BackgroundTasks, HTTPException
 from google.api_core.exceptions import GoogleAPICallError, ResourceExhausted, PermissionDenied
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -16,9 +16,14 @@ from app.services.ingestion import ingest_repository
 from app.services.worker import trigger_map_phase
 from app.services.reduce import generate_global_report
 from app.services.rag import ask_question
+from app.services.architecture_diff import (
+    ArchitectureDiffError,
+    compare_and_explain,
+    list_repository_versions,
+)
 
 from fastapi.middleware.cors import CORSMiddleware
-from app.models import RepositoryFile
+from app.models import RepositoryFile, ArchitectureDiff
 from app.pipeline_logs import add_pipeline_log, get_pipeline_logs, clear_pipeline_logs
 from app.auth import get_current_user
 
@@ -137,6 +142,11 @@ class RepoRequest(BaseModel):
 class ChatRequest(BaseModel):
     repo_url: str
     question: str
+
+class ArchitectureDiffRequest(BaseModel):
+    repo_url: str
+    base_commit: str = Field(min_length=7, max_length=40)
+    target_commit: str = Field(min_length=7, max_length=40)
 
 # ---------------------------------------------------------
 # ROUTES
@@ -347,6 +357,88 @@ async def stop_repo(
 def get_repo_logs(repo_url: str):
     """Get the live pipeline log entries for a repository."""
     return get_pipeline_logs(repo_url)
+
+def _require_owned_repository(db: Session, repo_url: str, user_id: str) -> None:
+    repository = db.query(RepositoryFile.id).filter(
+        RepositoryFile.repo_url == repo_url,
+        RepositoryFile.user_id == user_id
+    ).first()
+    if not repository:
+        raise HTTPException(status_code=404, detail="Repository not found for this user.")
+
+@app.get("/api/repo/commits")
+async def get_repo_commits(
+    repo_url: str,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """List recent commits and available branch/tag refs for an owned repository."""
+    _require_owned_repository(db, repo_url, current_user["uid"])
+    try:
+        return await asyncio.to_thread(list_repository_versions, repo_url)
+    except ArchitectureDiffError as error:
+        raise HTTPException(status_code=error.status_code, detail=str(error)) from error
+
+@app.post("/api/repo/architecture-diff")
+async def get_architecture_diff(
+    request: ArchitectureDiffRequest,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    """Compare evidence-backed architecture graphs for two commits of an owned repository."""
+    _require_owned_repository(db, request.repo_url, current_user["uid"])
+    user_id = current_user["uid"]
+    saved = db.query(ArchitectureDiff).filter(
+        ArchitectureDiff.repo_url == request.repo_url,
+        ArchitectureDiff.user_id == user_id,
+        ArchitectureDiff.base_commit == request.base_commit,
+        ArchitectureDiff.target_commit == request.target_commit,
+    ).first()
+    if saved:
+        return saved.result
+    try:
+        result = await compare_and_explain(
+            request.repo_url,
+            request.base_commit,
+            request.target_commit,
+        )
+        response = {
+            "repo_url": request.repo_url,
+            "base_commit": request.base_commit,
+            "target_commit": request.target_commit,
+            **result,
+        }
+        db.add(ArchitectureDiff(
+            repo_url=request.repo_url,
+            user_id=user_id,
+            base_commit=request.base_commit,
+            target_commit=request.target_commit,
+            result=response,
+        ))
+        db.commit()
+        return response
+    except ArchitectureDiffError as error:
+        raise HTTPException(status_code=error.status_code, detail=str(error)) from error
+
+@app.get("/api/repo/architecture-diff")
+def get_saved_architecture_diff(
+    repo_url: str,
+    base_commit: str,
+    target_commit: str,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    """Return a previously analyzed architecture diff for this user and commit pair."""
+    _require_owned_repository(db, repo_url, current_user["uid"])
+    saved = db.query(ArchitectureDiff).filter(
+        ArchitectureDiff.repo_url == repo_url,
+        ArchitectureDiff.user_id == current_user["uid"],
+        ArchitectureDiff.base_commit == base_commit,
+        ArchitectureDiff.target_commit == target_commit,
+    ).first()
+    if not saved:
+        raise HTTPException(status_code=404, detail="No saved architecture comparison for these commits.")
+    return saved.result
 
 @app.get("/api/repos")
 def list_repos(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
