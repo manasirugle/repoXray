@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   Sparkles,
   GitBranch,
@@ -695,6 +696,7 @@ export default function Home() {
               <a href="#coverflow" className="lp-nav-link">Features</a>
               <a href="#how-it-works" className="lp-nav-link">How It Works</a>
               <a href="#tech-stack" className="lp-nav-link">Tech Stack</a>
+              <Link href="/accuracy" className="lp-nav-link">Accuracy</Link>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -920,6 +922,13 @@ export default function Home() {
             <PlusCircle size={18} />
           </button>
         </div>
+
+        <nav className="border-b border-glass p-3" aria-label="Main navigation">
+          <Link href="/accuracy" className="flex items-center gap-2 rounded-lg border border-violet-500/20 bg-violet-500/5 px-3 py-2 text-xs font-semibold text-violet-500 transition-colors hover:bg-violet-500/10">
+            <BarChart3 size={14} />
+            <span>Accuracy</span>
+          </Link>
+        </nav>
 
         {/* Repos History List */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar">
@@ -1744,6 +1753,7 @@ export default function Home() {
               {activeTab === "diff" && (
                 <ArchitectureDiffPanel repoUrl={selectedRepoUrl} user={user} />
               )}
+
             </div>
           </div>
         )}
