@@ -1,5 +1,5 @@
 import uuid
-from sqlalchemy import Column, String, Text, DateTime
+from sqlalchemy import Column, String, Text, DateTime, UniqueConstraint
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID, JSONB
 from pgvector.sqlalchemy import Vector
@@ -66,5 +66,21 @@ class UserMapping(Base):
 
     uid = Column(String, primary_key=True, index=True)
     email = Column(String, nullable=False)
+
+
+class ArchitectureDiff(Base):
+    """Persisted architecture comparisons, isolated by repository owner and commit pair."""
+    __tablename__ = "architecture_diffs"
+    __table_args__ = (
+        UniqueConstraint("repo_url", "user_id", "base_commit", "target_commit", name="uq_architecture_diff_pair"),
+    )
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    repo_url = Column(String, index=True, nullable=False)
+    user_id = Column(String, index=True, nullable=False)
+    base_commit = Column(String, nullable=False)
+    target_commit = Column(String, nullable=False)
+    result = Column(JSONB, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
 
 

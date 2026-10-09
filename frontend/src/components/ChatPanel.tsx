@@ -25,18 +25,51 @@ const PRESETS = [
 ];
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://coderecall.onrender.com";
+const welcomeMessage: Message = {
+  id: "welcome",
+  sender: "ai",
+  text: "Hello! I am your AI Architect. I have indexed this repository and generated vector embeddings for a full semantic understanding. Ask me anything about the codebase!"
+};
+
+function chatStorageKey(repoUrl: string, user: User | null) {
+  return `repoxray-chat:${user?.uid || "guest"}:${repoUrl}`;
+}
 
 export default function ChatPanel({ repoUrl, user }: ChatPanelProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "welcome",
-      sender: "ai",
-      text: "Hello! I am your AI Architect. I have indexed this repository and generated vector embeddings for a full semantic understanding. Ask me anything about the codebase!"
-    }
-  ]);
+  const storageKey = chatStorageKey(repoUrl, user);
+  const [messages, setMessages] = useState<Message[]>([welcomeMessage]);
+  const [loadedStorageKey, setLoadedStorageKey] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Restore the conversation when this tab is revisited, scoped to this user and repository.
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(storageKey);
+      const parsed: unknown = saved ? JSON.parse(saved) : null;
+      if (Array.isArray(parsed) && parsed.every((message) =>
+        message && typeof message.id === "string" &&
+        (message.sender === "user" || message.sender === "ai") && typeof message.text === "string"
+      )) {
+        setMessages(parsed.length ? parsed : [welcomeMessage]);
+      } else {
+        setMessages([welcomeMessage]);
+      }
+    } catch {
+      setMessages([welcomeMessage]);
+    }
+    setLoadedStorageKey(storageKey);
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (loadedStorageKey !== storageKey) return;
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(messages));
+    } catch (error) {
+      console.warn("Could not save chat history in this browser.", error);
+    }
+  }, [loadedStorageKey, messages, storageKey]);
 
   // Auto-scroll chat to bottom
   useEffect(() => {
@@ -96,13 +129,7 @@ export default function ChatPanel({ repoUrl, user }: ChatPanelProps) {
   };
 
   const handleClear = () => {
-    setMessages([
-      {
-        id: "welcome",
-        sender: "ai",
-        text: "Hello! I am your AI Architect. I have indexed this repository and generated vector embeddings for a full semantic understanding. Ask me anything about the codebase!"
-      }
-    ]);
+    setMessages([welcomeMessage]);
   };
 
   return (

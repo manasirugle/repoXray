@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   Sparkles,
   GitBranch,
@@ -46,6 +47,7 @@ import { auth, signInWithGoogle, logoutUser, getIdToken, onAuthStateChanged } fr
 import Markdown from "../components/Markdown";
 import CodeViewer from "../components/CodeViewer";
 import ChatPanel from "../components/ChatPanel";
+import ArchitectureDiffPanel from "../components/ArchitectureDiffPanel";
 import { generatePdf } from "../components/PdfExport";
 import PhaseTwoModal from "../components/PhaseTwoModal";
 
@@ -115,7 +117,7 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://coderecall.o
 
 // Review-version flag: PDF export and repo refresh stay fully implemented but are
 // hidden from the UI while this is false. Set to true to show the buttons again.
-const SHOW_PDF_AND_REFRESH_ACTIONS = false;
+const SHOW_PDF_AND_REFRESH_ACTIONS = true;
 const ADMIN_EMAIL = "aryankale1410@gmail.com";
 
 const FUNNY_EXCUSES = [
@@ -133,9 +135,9 @@ export default function Home() {
   // Navigation & Workspace State
   const [repos, setRepos] = useState<Repository[]>([]);
   const [selectedRepoUrl, setSelectedRepoUrl] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "security" | "files" | "chat">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "security" | "files" | "chat" | "diff">("overview");
 
-  // Feature preview modal for unfinished tabs such as Architecture Diff.
+  // Feature preview modal for unfinished dashboard features.
   const [phaseTwoFeature, setPhaseTwoFeature] = useState<string | null>(null);
 
   // Firebase Auth State
@@ -694,6 +696,7 @@ export default function Home() {
               <a href="#coverflow" className="lp-nav-link">Features</a>
               <a href="#how-it-works" className="lp-nav-link">How It Works</a>
               <a href="#tech-stack" className="lp-nav-link">Tech Stack</a>
+              <Link href="/accuracy" className="lp-nav-link">Accuracy</Link>
             </div>
             <div className="flex items-center gap-3">
               <button
@@ -919,6 +922,13 @@ export default function Home() {
             <PlusCircle size={18} />
           </button>
         </div>
+
+        <nav className="border-b border-glass p-3" aria-label="Main navigation">
+          <Link href="/accuracy" className="flex items-center gap-2 rounded-lg border border-violet-500/20 bg-violet-500/5 px-3 py-2 text-xs font-semibold text-violet-500 transition-colors hover:bg-violet-500/10">
+            <BarChart3 size={14} />
+            <span>Accuracy</span>
+          </Link>
+        </nav>
 
         {/* Repos History List */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3 scrollbar">
@@ -1576,8 +1586,8 @@ export default function Home() {
                 <span>AI Chat Console</span>
               </button>
               <button
-                onClick={() => setPhaseTwoFeature("Architecture Diff")}
-                className="tab-btn"
+                onClick={() => setActiveTab("diff")}
+                className={`tab-btn ${activeTab === "diff" ? "tab-btn-active" : ""}`}
               >
                 <GitCompareArrows size={16} />
                 <span>Architecture Diff</span>
@@ -1739,6 +1749,11 @@ export default function Home() {
                   <ChatPanel repoUrl={selectedRepoUrl} user={user} />
                 </div>
               )}
+
+              {activeTab === "diff" && (
+                <ArchitectureDiffPanel repoUrl={selectedRepoUrl} user={user} />
+              )}
+
             </div>
           </div>
         )}

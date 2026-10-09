@@ -19,6 +19,7 @@ RepoXray analyzes GitHub repositories with a multi-phase **Map-Reduce AI pipelin
 
 ### Dashboard
 - **🏗️ Architecture Overview Tab:** Renders the AI-generated master architecture report as formatted Markdown.
+- **🔀 Architecture Diff Tab:** Select two commits from one repository, compare statically detected components and dependencies, inspect evidence-backed graph changes, and request a Gemini explanation.
 - **🛡️ Security Audit Tab:** Master security audit report plus a vulnerability checklist table with severity filters (`critical` / `high` / `medium` / `low`) mapped to individual files.
 - **📂 Repository History:** Per-user list of previously scanned repositories with processing status, re-openable at any time.
 - **📊 Platform Analytics:** Live counters for total repositories scanned, platform users, and files analyzed (public, no auth required).
@@ -49,7 +50,6 @@ These features are visible in the dashboard but currently open a *"planned for P
 
 - **📂 File Explorer:** Browse the indexed codebase hierarchy with per-file AI summaries and a side-by-side code inspector.
 - **💬 AI Chat Console:** Semantic RAG Q&A over the codebase — pgvector similarity search over file embeddings feeding a Gemini-powered chat (`POST /api/chat` backend endpoint exists).
-- **🔀 Architecture Diff:** Compare architecture reports across scans.
 - **📄 PDF Report Export:** Download the full analysis as a PDF (implemented with jsPDF, currently disabled behind a feature flag).
 
 ---
@@ -94,6 +94,8 @@ graph TD
 | `GET` | `/api/repo/logs` | Live pipeline log entries |
 | `GET` | `/api/repo/report` | Full report (overview, security audit, file list) |
 | `GET` | `/api/repo/file` | Raw content of an indexed file |
+| `GET` | `/api/repo/commits?repo_url=...` | Recent commits and branch/tag refs for an owned repository |
+| `POST` | `/api/repo/architecture-diff` | Compare architecture graphs for `base_commit` and `target_commit` |
 | `POST` | `/api/repo/stop` | Stop processing and purge repository data |
 | `GET` | `/api/repos` | List the current user's scanned repositories |
 | `POST` | `/api/chat` | RAG Q&A over a repository *(backend ready; UI in Phase 2)* |

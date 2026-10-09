@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import "@xyflow/react/dist/style.css";
 import "./globals.css";
 import GradientCursorEffect from "../components/GradientCursorEffect";
 import { DemoWidget } from "../components/demo";
