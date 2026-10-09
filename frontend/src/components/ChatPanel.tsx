@@ -135,7 +135,7 @@ export default function ChatPanel({ repoUrl, user }: ChatPanelProps) {
         {messages.map((msg) => (
           <div key={msg.id} className={`flex gap-3 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
             {msg.sender === "ai" && (
-              <div className="w-8 h-8 rounded-full border border-glass bg-[#0f1115] flex items-center justify-center text-violet-400 shrink-0 mt-1">
+              <div className="w-8 h-8 rounded-full border border-glass bg-[#0f1115] flex items-center justify-center text-[var(--accent-violet)] shrink-0 mt-1">
                 <Bot size={15} />
               </div>
             )}
@@ -149,7 +149,7 @@ export default function ChatPanel({ repoUrl, user }: ChatPanelProps) {
             </div>
 
             {msg.sender === "user" && (
-              <div className="w-8 h-8 rounded-full border border-glass bg-violet-600 flex items-center justify-center text-white shrink-0 mt-1">
+              <div className="w-8 h-8 rounded-full border border-glass bg-[var(--accent-violet)] flex items-center justify-center text-white shrink-0 mt-1">
                 <UserIcon size={15} />
               </div>
             )}
@@ -158,7 +158,7 @@ export default function ChatPanel({ repoUrl, user }: ChatPanelProps) {
 
         {loading && (
           <div className="flex gap-3 justify-start animate-pulse">
-            <div className="w-8 h-8 rounded-full border border-glass bg-[#0f1115] flex items-center justify-center text-violet-400 shrink-0">
+            <div className="w-8 h-8 rounded-full border border-glass bg-[#0f1115] flex items-center justify-center text-[var(--accent-violet)] shrink-0">
               <Bot size={15} />
             </div>
             <div className="chat-bubble chat-bubble-ai flex items-center gap-2 text-secondary py-3 px-4">

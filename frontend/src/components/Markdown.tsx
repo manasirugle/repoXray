@@ -165,7 +165,7 @@ export default function Markdown({ content }: MarkdownProps) {
         const alertClass = 
           alertType === "important" ? "bg-red-500/10 border-red-500/30 text-red-200" :
           alertType === "warning" ? "bg-amber-500/10 border-amber-500/30 text-amber-200" :
-          "bg-indigo-500/10 border-indigo-500/30 text-indigo-200";
+          "bg-[var(--accent-indigo)]/10 border-[var(--accent-indigo)]/30 text-[var(--accent-indigo)]";
 
         elements.push(
           <div key={`alert-${key++}`} className={`p-4 rounded-lg border my-4 text-sm leading-relaxed ${alertClass}`}>

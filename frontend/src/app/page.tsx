@@ -670,7 +670,7 @@ export default function Home() {
   if (authLoading) {
     return (
       <div className="auth-loader-screen">
-        <RefreshCw size={48} className="text-violet-500 animate-spin mb-4" />
+        <RefreshCw size={48} className="text-[var(--accent-violet)] animate-spin mb-4" />
         <h3 className="text-lg font-bold text-white font-heading">Securing Connection...</h3>
         <p className="text-secondary text-xs mt-1">Verifying identity certificates with Firebase.</p>
       </div>
@@ -896,12 +896,12 @@ export default function Home() {
         {/* Brand */}
         <div className="p-6 border-b border-glass flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-indigo-500 to-fuchsia-500 flex items-center justify-center text-white font-extrabold shadow-lg">
+            <div className="w-9 h-9 rounded-lg bg-gradient-to-tr from-[var(--accent-indigo)] to-[var(--accent-fuchsia)] flex items-center justify-center text-white font-extrabold shadow-lg">
               Ω
             </div>
             <div>
               <h1 className="font-heading font-extrabold text-md tracking-tight text-white leading-none">
-                REPO<span className="text-violet-400">XRAY</span>
+                REPO<span className="text-[var(--accent-violet)]">XRAY</span>
               </h1>
             </div>
           </div>
@@ -940,7 +940,7 @@ export default function Home() {
                   key={idx}
                   className={`w-full relative rounded-lg border transition-all flex flex-col gap-2 p-3 ${
                     isActive
-                      ? "border-violet-500 bg-violet-600/5 shadow-[inset_0_0_15px_rgba(139,92,246,0.1)]"
+                      ? "border-[var(--accent-violet)] bg-[var(--accent-violet)]/5 shadow-[inset_0_0_15px_var(--accent-violet)]"
                       : "border-glass bg-white/[0.01] hover:bg-white/[0.03] hover:border-glass-hover"
                   }`}
                 >
@@ -1007,11 +1007,11 @@ export default function Home() {
 
             {/* Brand Logo & Name */}
             <div className="flex items-center gap-2">
-              <div className="w-6.5 h-6.5 rounded bg-gradient-to-tr from-indigo-500 to-fuchsia-500 flex items-center justify-center text-white font-extrabold shadow-sm text-[11px] leading-none" style={{ width: "26px", height: "26px" }}>
+              <div className="w-6.5 h-6.5 rounded bg-gradient-to-tr from-[var(--accent-indigo)] to-[var(--accent-fuchsia)] flex items-center justify-center text-white font-extrabold shadow-sm text-[11px] leading-none" style={{ width: "26px", height: "26px" }}>
                 Ω
               </div>
               <span className="font-heading font-extrabold text-[12px] text-white tracking-tight">
-                REPO<span className="text-violet-400">XRAY</span>
+                REPO<span className="text-[var(--accent-violet)]">XRAY</span>
               </span>
             </div>
 
@@ -1165,13 +1165,13 @@ export default function Home() {
         {!selectedRepoUrl && !reportLoading && (
           <div className="max-w-3xl mx-auto w-full my-auto py-6 flex flex-col items-center justify-center animate-fade-in">
             {/* Glowing Icon */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500 to-fuchsia-500 flex items-center justify-center text-white font-black text-2xl shadow-[0_0_35px_rgba(139,92,246,0.4)] mb-6">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-[var(--accent-indigo)] to-[var(--accent-fuchsia)] flex items-center justify-center text-white font-black text-2xl shadow-[0_0_35px_var(--accent-violet)] mb-6">
               Ω
             </div>
             
             <h2 className="text-4xl font-extrabold font-heading text-center text-white tracking-tight leading-none mb-3">
               AI-Powered Repository <br />
-              <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--accent-indigo)] via-[var(--accent-violet)] to-[var(--accent-fuchsia)] bg-clip-text text-transparent">
                 Intelligence Platform
               </span>
             </h2>
@@ -1212,13 +1212,13 @@ export default function Home() {
                 </div>
 
                 {isSubmitting && (
-                  <div className="rounded-xl border border-violet-500/20 bg-violet-500/8 px-4 py-3">
-                    <div className="flex items-center gap-2 text-sm font-semibold text-violet-300">
+                  <div className="rounded-xl border border-[var(--accent-violet)]/20 bg-[var(--accent-violet)]/8 px-4 py-3">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-[var(--accent-violet)]">
                       <RefreshCw size={14} className="animate-spin" />
                       <span>Linking repository and preparing the analysis pipeline...</span>
                     </div>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-white/8">
-                      <div className="h-full w-1/3 rounded-full bg-gradient-to-r from-indigo-400 via-violet-400 to-fuchsia-400 animate-pulse" />
+                      <div className="h-full w-1/3 rounded-full bg-gradient-to-r from-[var(--accent-indigo)] via-[var(--accent-violet)] to-[var(--accent-fuchsia)] animate-pulse" />
                     </div>
                     <p className="mt-2 text-[11px] text-secondary">
                       This can take a moment while RepoXray validates the URL and starts ingestion.
@@ -1244,7 +1244,7 @@ export default function Home() {
             {/* Feature quick details */}
             <div className="grid grid-cols-3 gap-8 mt-4 w-full text-center">
               <div className="flex flex-col items-center">
-                <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center text-indigo-400 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-indigo)]/10 border border-[var(--accent-indigo)]/25 flex items-center justify-center text-[var(--accent-indigo)] mb-2">
                   <GitBranch size={16} />
                 </div>
                 <h4 className="text-xs font-bold text-white mb-1">Static Mapping</h4>
@@ -1252,7 +1252,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="w-8 h-8 rounded-lg bg-violet-500/10 border border-violet-500/25 flex items-center justify-center text-violet-400 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-violet)]/10 border border-[var(--accent-violet)]/25 flex items-center justify-center text-[var(--accent-violet)] mb-2">
                   <Shield size={16} />
                 </div>
                 <h4 className="text-xs font-bold text-white mb-1">Vulnerability Audits</h4>
@@ -1260,7 +1260,7 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col items-center">
-                <div className="w-8 h-8 rounded-lg bg-fuchsia-500/10 border border-fuchsia-500/25 flex items-center justify-center text-fuchsia-400 mb-2">
+                <div className="w-8 h-8 rounded-lg bg-[var(--accent-fuchsia)]/10 border border-[var(--accent-fuchsia)]/25 flex items-center justify-center text-[var(--accent-fuchsia)] mb-2">
                   <MessageSquare size={16} />
                 </div>
                 <h4 className="text-xs font-bold text-white mb-1">Full RAG Chat</h4>
@@ -1296,7 +1296,7 @@ export default function Home() {
         {/* LOADING REPO STATE */}
         {reportLoading && (
           <div className="my-auto py-24 flex flex-col items-center justify-center animate-pulse">
-            <RefreshCw size={48} className="text-violet-500 animate-spin mb-4" />
+            <RefreshCw size={48} className="text-[var(--accent-violet)] animate-spin mb-4" />
             <h3 className="text-lg font-bold text-white font-heading">Synthesizing Repository Analysis...</h3>
             <p className="text-secondary text-xs mt-1">Reading database vectors and loading architecture documents.</p>
           </div>
@@ -1305,9 +1305,9 @@ export default function Home() {
         {/* PIPELINE LIVE INGESTION PROGRESS TRACKER */}
         {pipelineStatus && (
           <div className="max-w-xl mx-auto w-full my-auto animate-fade-in">
-            <div className="glass-panel p-8 bg-white/[0.02] border-violet-500/30 text-center relative overflow-hidden">
+            <div className="glass-panel p-8 bg-white/[0.02] border-[var(--accent-violet)]/30 text-center relative overflow-hidden">
               {/* Pulsing neon bg glow */}
-              <div className="absolute -top-12 -left-12 w-24 h-24 bg-violet-500/20 blur-3xl rounded-full" />
+              <div className="absolute -top-12 -left-12 w-24 h-24 bg-[var(--accent-violet)]/20 blur-3xl rounded-full" />
               <div className="absolute -bottom-12 -right-12 w-24 h-24 bg-cyan-500/20 blur-3xl rounded-full" />
 
               {pipelineStatus.status === "error" ? (
@@ -1495,7 +1495,7 @@ export default function Home() {
                     <ArrowLeft size={12} />
                     <span>Back</span>
                   </button>
-                  <span className="text-[10px] uppercase font-extrabold tracking-widest text-violet-400 px-2 py-0.5 bg-violet-600/10 border border-violet-500/20 rounded">
+                  <span className="text-[10px] uppercase font-extrabold tracking-widest text-[var(--accent-violet)] px-2 py-0.5 bg-[var(--accent-violet)]/10 border border-[var(--accent-violet)]/20 rounded">
                     active repository
                   </span>
                   <a
@@ -1527,7 +1527,7 @@ export default function Home() {
                   <>
                     <button
                       onClick={() => generatePdf(report)}
-                      className="p-3 rounded-lg border border-glass bg-violet-600/10 hover:bg-violet-600/20 text-violet-400 hover:text-white transition-all flex items-center gap-2 font-semibold"
+                      className="p-3 rounded-lg border border-glass bg-[var(--accent-violet)]/10 hover:bg-[var(--accent-violet)]/20 text-[var(--accent-violet)] hover:text-white transition-all flex items-center gap-2 font-semibold"
                       title="Download PDF Analysis Report"
                     >
                       <Download size={14} />
@@ -1589,7 +1589,7 @@ export default function Home() {
               {/* TAB 1: ARCHITECTURE OVERVIEW */}
               {activeTab === "overview" && (
                 <div className="glass-panel p-6 bg-white/[0.01] animate-fade-in space-y-6">
-                  <div className="flex items-center gap-2 mb-2 text-violet-400">
+                  <div className="flex items-center gap-2 mb-2 text-[var(--accent-violet)]">
                     <Sparkles size={18} />
                     <h3 className="font-heading font-extrabold text-lg text-white">Master Architect Overview</h3>
                   </div>
@@ -1760,7 +1760,7 @@ export default function Home() {
       {/* Full Sheet Loading Spinner for File Click */}
       {fileLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs">
-          <div className="glass-panel p-6 bg-[#0c0d12]/90 flex items-center gap-4 border-violet-500/30">
+          <div className="glass-panel p-6 bg-[#0c0d12]/90 flex items-center gap-4 border-[var(--accent-violet)]/30">
             <RefreshCw size={24} className="text-cyan-400 animate-spin" />
             <span className="text-sm font-semibold text-white">Loading raw code buffers...</span>
           </div>

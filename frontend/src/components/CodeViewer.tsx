@@ -40,7 +40,7 @@ export default function CodeViewer({
         {/* Header */}
         <div className="p-6 border-b border-glass flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-violet-600/10 border border-violet-500/25 flex items-center justify-center text-violet-400">
+            <div className="w-10 h-10 rounded-lg bg-[var(--accent-violet)]/10 border border-[var(--accent-violet)]/25 flex items-center justify-center text-[var(--accent-violet)]">
               <FileText size={20} />
             </div>
             <div>
@@ -97,7 +97,7 @@ export default function CodeViewer({
             <div className="space-y-6 animate-fade-in">
               {/* Summary Block */}
               <div className="glass-panel p-5 bg-white/[0.02]">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-violet-400 mb-3">File Abstract</h3>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-violet)] mb-3">File Abstract</h3>
                 <p className="text-secondary text-[14px] leading-relaxed">
                   {summary || "AI Summary not generated for this file."}
                 </p>

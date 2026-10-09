@@ -307,7 +307,7 @@ export function generatePdf(report: RepoReport): void {
         // Draw bullet point symbol in premium violet accent color
         doc.setFont("helvetica", "bold");
         doc.setFontSize(fontSize);
-        doc.setTextColor(139, 92, 246); // Violet-500
+        doc.setTextColor(124, 103, 174); // Violet-500
         doc.text("•", marginX + 2, currentY);
       }
 
@@ -466,7 +466,7 @@ export function generatePdf(report: RepoReport): void {
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  doc.setTextColor(37, 99, 235); // Blue-600 for link
+  doc.setTextColor(53, 54, 156); // Blue-600 for link
   doc.text(report.repo_url, marginX + 8, metadataY);
   metadataY += 10;
 
@@ -665,7 +665,7 @@ export function generatePdf(report: RepoReport): void {
     // Language Tag
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
-    doc.setTextColor(37, 99, 235); // Blue-600
+    doc.setTextColor(53, 54, 156); // Blue-600
     doc.text(`[${file.language || "Unknown"}]`, pageWidth - marginX, y, { align: "right" });
     y += 5;
 

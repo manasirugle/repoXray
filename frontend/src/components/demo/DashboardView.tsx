@@ -24,7 +24,7 @@ function ArchitecturePanel() {
 
   return (
     <div className="p-4 space-y-3" key="architecture">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-blue-500/10 text-blue-600 border border-blue-500/25 px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25 px-2 py-1 rounded-md w-fit">
         <span>✦</span>
         <span>Master Architect Overview</span>
       </div>
@@ -45,7 +45,7 @@ function ArchitecturePanel() {
         ].map(({ path, desc, minStep }) => (
           step >= minStep ? (
             <div key={path} className="text-xs font-mono animate-fade-in">
-              <span className="font-semibold text-blue-600 dark:text-sky-400">{path}</span>
+              <span className="font-semibold text-[var(--accent-indigo)] dark:text-sky-400">{path}</span>
               <span className="text-[#737373] italic"> {desc}</span>
             </div>
           ) : null
@@ -114,7 +114,7 @@ function FilesPanel() {
 
   return (
     <div className="p-4 space-y-2" key="files">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-blue-500/10 text-blue-600 border border-blue-500/25 px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25 px-2 py-1 rounded-md w-fit">
         <span>≡</span>
         <span>File Explorer</span>
       </div>
@@ -126,7 +126,7 @@ function FilesPanel() {
               className="flex items-center gap-1 animate-fade-in"
               style={{ paddingLeft: `${indent * 14}px` }}
             >
-              <span className="text-blue-500 font-bold">{icon}</span>
+              <span className="text-[var(--accent-indigo)] font-bold">{icon}</span>
               <span className={bold ? "font-semibold text-gray-800" : ""}>{label}</span>
             </div>
           ) : null
@@ -188,7 +188,7 @@ function ChatPanel() {
 function DiffPanel() {
   return (
     <div className="p-4 space-y-2" key="diff">
-      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-blue-500/10 text-blue-600 border border-blue-500/25 px-2 py-1 rounded-md w-fit">
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wide badge bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border border-[var(--accent-indigo)]/25 px-2 py-1 rounded-md w-fit">
         <span>⇄</span>
         <span>Architecture Diff</span>
       </div>
@@ -230,7 +230,7 @@ export default function DashboardView({ activeTab, tabCycleIndex, onTabClick }: 
         {/* Stats header */}
         <div className="px-4 pt-3 pb-2 border-b border-[#e5e5e5] flex items-start justify-between gap-2 shrink-0">
           <div className="flex-1 min-w-0">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 badge bg-blue-500/10 text-blue-600 border-blue-500/25 rounded-md text-[10px] font-semibold mb-1.5">
+            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 badge bg-[var(--accent-indigo)]/10 text-[var(--accent-indigo)] border-[var(--accent-indigo)]/25 rounded-md text-[10px] font-semibold mb-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-current inline-block animate-pulse" />
               ACTIVE REPOSITORY
             </div>
@@ -243,7 +243,7 @@ export default function DashboardView({ activeTab, tabCycleIndex, onTabClick }: 
               <p className="text-[9px] font-semibold text-[#a3a3a3] uppercase tracking-wide">Code Files</p>
             </div>
             <div>
-              <p className="text-lg font-bold text-blue-600 leading-none">{REPO_ISSUES}</p>
+              <p className="text-lg font-bold text-[var(--accent-indigo)] leading-none">{REPO_ISSUES}</p>
               <p className="text-[9px] font-semibold text-[#a3a3a3] uppercase tracking-wide">Issues Found</p>
             </div>
           </div>

@@ -14,7 +14,7 @@ export default function PhaseTwoModal({ featureTitle, onClose }: PhaseTwoModalPr
       <div className="phase2-modal" onClick={(e) => e.stopPropagation()}>
         <span className="phase2-modal-badge">Phase 2</span>
         <h3 className="phase2-modal-title">
-          <Sparkles className="text-violet-400" size={22} />
+          <Sparkles className="text-[var(--accent-violet)]" size={22} />
           <span>{featureTitle}</span>
         </h3>
         <p className="phase2-modal-desc">

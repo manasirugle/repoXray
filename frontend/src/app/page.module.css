@@ -9,28 +9,28 @@
      - Primary: light blue #60A5FA
      - Secondary: sky blue #38BDF8
      These override global accent variables only within the landing page. */
-  --border-glass-hover: #60A5FA;
-  --border-active: #60A5FA;
-  --accent-indigo: #60A5FA;
-  --accent-violet: #38BDF8;
-  --accent-fuchsia: #7dd3fc;
+  --border-glass-hover: #35369C;
+  --border-active: #35369C;
+  --accent-indigo: #35369C;
+  --accent-violet: #7C67AE;
+  --accent-fuchsia: #3F2548;
   --gradient-primary: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
   --gradient-accent: linear-gradient(135deg, var(--accent-violet), var(--accent-fuchsia));
   --gradient-glow: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet), var(--accent-fuchsia));
-  --shadow-neon: 0 4px 14px rgba(96,165,250,0.08);
-  --shadow-neon-strong: 0 6px 20px rgba(96,165,250,0.15);
+  --shadow-neon: 0 4px 14px rgba(53,54,156,0.15);
+  --shadow-neon-strong: 0 6px 20px rgba(53,54,156,0.3);
 
 
 /* Bright-mode overrides for orange utility classes scoped to landing page */
 .page .text-orange-600 {
-  background: linear-gradient(90deg, #60A5FA, #38BDF8);
+  background: var(--btn-primary-bg);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
 }
 
 .page .bg-orange-100 {
-  background: linear-gradient(90deg, #60A5FA, #38BDF8) !important;
+  background: var(--btn-primary-bg) !important;
   color: #ffffff !important;
   border-color: transparent !important;
 }
@@ -41,7 +41,7 @@
 
 /* Demo widget button/badge overrides on landing page (bright) */
 .page .demo-btn-primary {
-  background: linear-gradient(135deg, #60A5FA 0%, #38BDF8 100%) !important;
+  background: var(--btn-primary-bg) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(96,165,250,0.25) !important;
 }
@@ -54,33 +54,33 @@
 
 /* Dark-mode landing page overrides: dark blue -> pink */
 .dark .page {
-  --border-glass-hover: #1E3A8A;
-  --border-active: #1E3A8A;
-  --accent-indigo: #1E3A8A;
-  --accent-violet: #EC4899;
-  --accent-fuchsia: #d946ef;
+  --border-glass-hover: rgba(124, 103, 174, 0.5);
+  --border-active: #7C67AE;
+  --accent-indigo: #6B6FD6;
+  --accent-violet: #7C67AE;
+  --accent-fuchsia: #C8C793;
   --gradient-primary: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet));
   --gradient-accent: linear-gradient(135deg, var(--accent-violet), var(--accent-fuchsia));
   --gradient-glow: linear-gradient(90deg, var(--accent-indigo), var(--accent-violet), var(--accent-fuchsia));
-  --shadow-neon: 0 4px 18px rgba(30,58,138,0.18);
-  --shadow-neon-strong: 0 6px 26px rgba(236,72,153,0.20);
+  --shadow-neon: 0 4px 18px rgba(107, 111, 214, 0.15);
+  --shadow-neon-strong: 0 6px 26px rgba(107, 111, 214, 0.35);
 }
 
 .dark .page .text-orange-600 {
-  background: linear-gradient(90deg, #1E3A8A, #EC4899);
+  background: linear-gradient(90deg, #6B6FD6, #C8C793);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent !important;
 }
 
 .dark .page .bg-orange-100 {
-  background: linear-gradient(90deg, #1E3A8A, #EC4899) !important;
+  background: linear-gradient(90deg, #6B6FD6, #C8C793) !important;
   color: #ffffff !important;
   border-color: transparent !important;
 }
 
 .dark .page .demo-btn-primary {
-  background: linear-gradient(135deg, #1E3A8A 0%, #EC4899 100%) !important;
+  background: var(--btn-primary-bg) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 20px rgba(30,58,138,0.22) !important;
 }

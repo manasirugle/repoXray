@@ -47,7 +47,7 @@ const slides = [
     label: "REPORTING",
     description: "One-click comprehensive PDF reports with architecture overviews, security audits, and file-level analysis.",
     logo: NextIcon,
-    accentClass: "theme-blue",
+    accentClass: "theme-indigo",
     variant: "report",
   },
   {
