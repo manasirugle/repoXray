@@ -42,6 +42,7 @@ import {
 } from "lucide-react";
 import TechMarquee from "@/components/TechMarquee";
 import CoverflowCarousel from "@/components/CoverflowCarousel";
+import RepoXrayDemo from "@/components/RepoXrayDemo";
 import type { User } from "firebase/auth";
 import { auth, signInWithGoogle, logoutUser, getIdToken, onAuthStateChanged } from "../config/firebase";
 import Markdown from "../components/Markdown";
@@ -756,53 +757,35 @@ export default function Home() {
               </div>
             )}
 
-            {/* Live Platform Stats */}
-            <div className="lp-hero-stats">
-              <div className="lp-hero-stat">
-                <Database size={16} className="lp-stat-icon lp-icon-cyan" />
-                <span className="lp-stat-number">{publicStats?.total_repositories_scanned ?? "—"}</span>
-                <span className="lp-stat-label">Repos Analyzed</span>
-              </div>
-              <div className="lp-hero-stat-divider" />
-              <div className="lp-hero-stat">
-                <Users size={16} className="lp-stat-icon lp-icon-violet" />
-                <span className="lp-stat-number">{publicStats?.total_platform_users ?? "—"}</span>
-                <span className="lp-stat-label">Engineers</span>
-              </div>
-              <div className="lp-hero-stat-divider" />
-              <div className="lp-hero-stat">
-                <FileCode2 size={16} className="lp-stat-icon lp-icon-fuchsia" />
-                <span className="lp-stat-number">{publicStats?.total_files_analyzed ?? "—"}</span>
-                <span className="lp-stat-label">Files Analyzed</span>
-              </div>
-            </div>
+            {/* Live Platform Stats — Only show if real values exist */}
+            {publicStats &&
+              typeof publicStats.total_repositories_scanned === "number" &&
+              typeof publicStats.total_platform_users === "number" &&
+              typeof publicStats.total_files_analyzed === "number" && (
+                <div className="lp-hero-stats">
+                  <div className="lp-hero-stat">
+                    <Database size={16} className="lp-stat-icon lp-icon-cyan" />
+                    <span className="lp-stat-number">{publicStats.total_repositories_scanned.toLocaleString()}</span>
+                    <span className="lp-stat-label">Repos Analyzed</span>
+                  </div>
+                  <div className="lp-hero-stat-divider" />
+                  <div className="lp-hero-stat">
+                    <Users size={16} className="lp-stat-icon lp-icon-violet" />
+                    <span className="lp-stat-number">{publicStats.total_platform_users.toLocaleString()}</span>
+                    <span className="lp-stat-label">Engineers</span>
+                  </div>
+                  <div className="lp-hero-stat-divider" />
+                  <div className="lp-hero-stat">
+                    <FileCode2 size={16} className="lp-stat-icon lp-icon-fuchsia" />
+                    <span className="lp-stat-number">{publicStats.total_files_analyzed.toLocaleString()}</span>
+                    <span className="lp-stat-label">Files Analyzed</span>
+                  </div>
+                </div>
+              )}
           </div>
 
-          {/* Hero Visual — Floating Code Card */}
-          <div className="lp-hero-visual">
-            <div className="lp-code-card">
-              <div className="lp-code-header">
-                <div className="lp-code-dots">
-                  <span className="lp-dot lp-dot-red" />
-                  <span className="lp-dot lp-dot-yellow" />
-                  <span className="lp-dot lp-dot-green" />
-                </div>
-                <span className="lp-code-title">architecture_report.md</span>
-              </div>
-              <div className="lp-code-body">
-                <code><span className="lp-code-kw">##</span> <span className="lp-code-str">Architecture Overview</span></code>
-                <code><span className="lp-code-comment">{"// AI-generated deep analysis"}</span></code>
-                <code></code>
-                <code><span className="lp-code-kw">├──</span> <span className="lp-code-fn">auth/</span> <span className="lp-code-comment">Firebase JWT verification</span></code>
-                <code><span className="lp-code-kw">├──</span> <span className="lp-code-fn">services/</span> <span className="lp-code-comment">Map-Reduce pipeline</span></code>
-                <code><span className="lp-code-kw">├──</span> <span className="lp-code-fn">rag/</span> <span className="lp-code-comment">pgvector similarity search</span></code>
-                <code><span className="lp-code-kw">└──</span> <span className="lp-code-fn">reports/</span> <span className="lp-code-comment">PDF export engine</span></code>
-                <code></code>
-                <code><span className="lp-code-kw">⚠</span> <span className="lp-code-warn">3 vulnerabilities detected</span></code>
-                <code><span className="lp-code-kw">✓</span> <span className="lp-code-success">Security audit complete</span></code>
-              </div>
-            </div>
-          </div>
+          {/* Hero Visual — Self-playing Animated Demo */}
+          <RepoXrayDemo />
         </section>
 
         <CoverflowCarousel />

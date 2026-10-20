@@ -331,8 +331,8 @@ export default function ArchitectureDiffPanel({ repoUrl, user }: { repoUrl: stri
           const hasSavedPair = savedSelection?.baseCommit && savedSelection.targetCommit &&
             savedSelection.baseCommit !== savedSelection.targetCommit &&
             commitIds.has(savedSelection.baseCommit) && commitIds.has(savedSelection.targetCommit);
-          setBaseCommit(hasSavedPair ? savedSelection.baseCommit! : versions[versions.length - 1].commit_id);
-          setTargetCommit(hasSavedPair ? savedSelection.targetCommit! : versions[0].commit_id);
+          setBaseCommit(hasSavedPair && savedSelection?.baseCommit ? savedSelection.baseCommit : versions[versions.length - 1].commit_id);
+          setTargetCommit(hasSavedPair && savedSelection?.targetCommit ? savedSelection.targetCommit : versions[0].commit_id);
         }
         if (!versions.length) setError(data.message || "No useful Git history is available for this repository.");
       } catch (loadError) {
