@@ -4903,4 +4903,248 @@ h2, h3, h4 {
   }
 }
 
+/* Neutral dark workspace theme for the repository analysis/results dashboard. */
+html.dark:has(.min-height-screen) {
+  --bg: #111216;
+  --sidebar: #17181d;
+  --surface: #1d1f25;
+  --surface-input: #15161b;
+  --border: #30323a;
+  --text: #f1f1f4;
+  --text-muted: #a1a3ad;
+  --accent: #8b83f6;
+  --accent-hover: #a29bff;
+  --accent-text: #f5f4ff;
+}
+
+html.dark:has(.min-height-screen) body {
+  background-color: var(--bg) !important;
+}
+
+html.dark:has(.min-height-screen) body::after {
+  background: var(--bg) !important;
+  background-image: none !important;
+}
+
+html.dark:has(.min-height-screen) body::before {
+  inset: 0;
+  filter: none;
+  background-image: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 42%);
+}
+
+html.dark .min-height-screen {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+}
+
+html.dark .min-height-screen .sidebar-historical,
+html.dark .min-height-screen .mobile-header,
+html.dark .min-height-screen .workspace-topbar {
+  background: var(--sidebar) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  backdrop-filter: none !important;
+}
+
+html.dark .min-height-screen main,
+html.dark .min-height-screen main.bg-deep {
+  background: var(--bg) !important;
+}
+
+html.dark .min-height-screen .glass-panel,
+html.dark .min-height-screen .chat-bubble-ai,
+html.dark .min-height-screen .tab-content,
+html.dark .min-height-screen .bg-white\/\[0\.01\],
+html.dark .min-height-screen .bg-white\/\[0\.02\],
+html.dark .min-height-screen .bg-white\/\[0\.03\],
+html.dark .min-height-screen .bg-white\/\[0\.04\],
+html.dark .min-height-screen .bg-white\/\[0\.05\] {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+html.dark .min-height-screen main [class*="bg-[#"],
+html.dark .min-height-screen main [class*="bg-black/"] {
+  background-color: var(--surface-input) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen [class*="bg-cyan-"],
+html.dark .min-height-screen [class*="bg-indigo-"],
+html.dark .min-height-screen [class*="bg-violet-"],
+html.dark .min-height-screen [class*="bg-fuchsia-"],
+html.dark .min-height-screen [class*="bg-sky-"] {
+  background-color: color-mix(in srgb, var(--accent) 12%, var(--surface)) !important;
+  background-image: none !important;
+}
+
+html.dark .min-height-screen [class*="text-cyan-"],
+html.dark .min-height-screen [class*="text-indigo-"],
+html.dark .min-height-screen [class*="text-violet-"],
+html.dark .min-height-screen [class*="text-fuchsia-"],
+html.dark .min-height-screen [class*="text-sky-"],
+html.dark .min-height-screen [class*="text-emerald-"],
+html.dark .min-height-screen [class*="text-green-"],
+html.dark .min-height-screen [class*="text-amber-"],
+html.dark .min-height-screen [class*="text-orange-"],
+html.dark .min-height-screen [class*="text-rose-"],
+html.dark .min-height-screen [class*="text-red-"] {
+  color: var(--accent) !important;
+}
+
+html.dark .min-height-screen .glass-input,
+html.dark .min-height-screen input,
+html.dark .min-height-screen select,
+html.dark .min-height-screen textarea,
+html.dark .min-height-screen pre,
+html.dark .min-height-screen .code-pre,
+html.dark .min-height-screen code {
+  background: var(--surface-input) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .border-glass,
+html.dark .min-height-screen .border-b,
+html.dark .min-height-screen .border-t,
+html.dark .min-height-screen .border-r,
+html.dark .min-height-screen .border-l {
+  border-color: var(--border) !important;
+}
+
+html.dark .min-height-screen .text-white,
+html.dark .min-height-screen .text-gray-100,
+html.dark .min-height-screen .text-gray-200,
+html.dark .min-height-screen .text-gray-300 {
+  color: var(--text) !important;
+}
+
+html.dark .min-height-screen .text-secondary,
+html.dark .min-height-screen .text-muted {
+  color: var(--text-muted) !important;
+}
+
+html.dark .min-height-screen a:not(.glass-btn),
+html.dark .min-height-screen .text-\[var\(--accent-violet\)\],
+html.dark .min-height-screen .text-violet-400,
+html.dark .min-height-screen .text-violet-500 {
+  color: var(--accent) !important;
+}
+
+html.dark .min-height-screen .glass-btn {
+  background: var(--accent) !important;
+  color: var(--accent-text) !important;
+  border: 1px solid var(--accent) !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .glass-btn:hover {
+  background: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .tab-btn {
+  border: 0 !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .min-height-screen .tab-btn:hover {
+  background: color-mix(in srgb, var(--accent) 8%, transparent) !important;
+  color: var(--text) !important;
+}
+
+html.dark .min-height-screen .tab-btn-active {
+  border-bottom-color: var(--accent) !important;
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+html.dark .min-height-screen .sev-btn {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+html.dark .min-height-screen .sev-btn:hover {
+  background: var(--surface-input) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: var(--text) !important;
+}
+
+html.dark .min-height-screen .sev-btn-active {
+  background: color-mix(in srgb, var(--accent) 12%, var(--surface)) !important;
+  border-color: var(--accent) !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+/* Semantic severity colors are limited to security finding badges and filters. */
+html.dark .min-height-screen .badge-critical,
+html.dark .min-height-screen .sev-btn-critical-active { color: #f87171 !important; background: color-mix(in srgb, #f87171 14%, var(--surface)) !important; border-color: color-mix(in srgb, #f87171 32%, var(--border)) !important; }
+html.dark .min-height-screen .badge-high,
+html.dark .min-height-screen .sev-btn-high-active { color: #fb923c !important; background: color-mix(in srgb, #fb923c 14%, var(--surface)) !important; border-color: color-mix(in srgb, #fb923c 32%, var(--border)) !important; }
+html.dark .min-height-screen .badge-medium,
+html.dark .min-height-screen .sev-btn-medium-active { color: #fbbf24 !important; background: color-mix(in srgb, #fbbf24 14%, var(--surface)) !important; border-color: color-mix(in srgb, #fbbf24 32%, var(--border)) !important; }
+html.dark .min-height-screen .badge-low,
+html.dark .min-height-screen .sev-btn-low-active { color: #60a5fa !important; background: color-mix(in srgb, #60a5fa 14%, var(--surface)) !important; border-color: color-mix(in srgb, #60a5fa 32%, var(--border)) !important; }
+html.dark .min-height-screen .badge-info,
+html.dark .min-height-screen .badge-passed,
+html.dark .min-height-screen .sev-btn-info-active,
+html.dark .min-height-screen .sev-btn-passed-active { color: #4ade80 !important; background: color-mix(in srgb, #4ade80 14%, var(--surface)) !important; border-color: color-mix(in srgb, #4ade80 32%, var(--border)) !important; }
+
+html.dark .min-height-screen .glow-active,
+html.dark .min-height-screen [class*="shadow-"],
+html.dark .min-height-screen [class*="drop-shadow"] {
+  animation: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .react-flow__node > div {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .react-flow__node span,
+html.dark .min-height-screen .react-flow__node .text-slate-500 {
+  color: var(--text-muted) !important;
+}
+
+html.dark .min-height-screen .react-flow__renderer,
+html.dark .min-height-screen .react-flow__pane,
+html.dark .min-height-screen .react-flow__viewport,
+html.dark .min-height-screen .react-flow__controls,
+html.dark .min-height-screen .react-flow__minimap {
+  background: var(--surface-input) !important;
+  border-color: var(--border) !important;
+  box-shadow: none !important;
+}
+
+html.dark .min-height-screen .react-flow__controls button {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  fill: var(--text) !important;
+}
+
+html.dark .min-height-screen .react-flow__edge-path {
+  stroke: var(--accent) !important;
+}
 
