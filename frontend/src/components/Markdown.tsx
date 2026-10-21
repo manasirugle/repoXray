@@ -33,7 +33,7 @@ export default function Markdown({ content }: MarkdownProps) {
     const flushList = () => {
       if (listItems.length > 0) {
         elements.push(
-          <ul key={`ul-${key++}`} className="list-disc pl-6 mb-4 space-y-2 text-secondary">
+          <ul key={`ul-${key++}`} className="markdown-list list-disc pl-6 mb-4 space-y-2">
             {listItems.map((item, idx) => (
               <li key={idx} dangerouslySetInnerHTML={{ __html: formatInline(item) }} />
             ))}
@@ -46,11 +46,11 @@ export default function Markdown({ content }: MarkdownProps) {
 
     const formatInline = (str: string) => {
       // Bold **text**
-      let formatted = str.replace(/\*\*(.*?)\*\*/g, '<strong class="text-white font-semibold">$1</strong>');
+      let formatted = str.replace(/\*\*(.*?)\*\*/g, '<strong class="markdown-strong">$1</strong>');
       // Italic *text*
-      formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-gray-300">$1</em>');
+      formatted = formatted.replace(/\*(.*?)\*/g, '<em class="markdown-em">$1</em>');
       // Inline Code `code`
-      formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-[#0b0c10] border border-glass px-1.5 py-0.5 rounded text-[12px] font-mono text-cyan-400">$1</code>');
+      formatted = formatted.replace(/`(.*?)`/g, '<code class="markdown-inline-code">$1</code>');
       return formatted;
     };
 
@@ -66,12 +66,12 @@ export default function Markdown({ content }: MarkdownProps) {
           const currentIndex = key++;
           
           elements.push(
-            <div key={`code-${currentIndex}`} className="relative group my-5 rounded-lg overflow-hidden border border-glass shadow-lg w-full max-w-full">
-              <div className="bg-[#12161f] border-b border-glass px-4 py-2 flex items-center justify-between text-xs text-secondary font-mono">
+            <div key={`code-${currentIndex}`} className="markdown-code-block relative group my-5 rounded-lg overflow-hidden border w-full max-w-full">
+              <div className="markdown-code-header border-b px-4 py-2 flex items-center justify-between text-xs font-mono">
                 <span>{blockLang}</span>
                 <button
                   onClick={() => handleCopy(blockText, currentIndex)}
-                  className="px-2.5 py-1 rounded bg-white/[0.04] border border-glass text-[11px] text-secondary hover:text-white hover:bg-white/[0.1] hover:border-glass-hover transition-all flex items-center gap-1"
+                  className="markdown-copy-button px-2.5 py-1 rounded border text-[11px] transition-all flex items-center gap-1"
                   title="Copy Code"
                 >
                   {copiedIndex === currentIndex ? (
@@ -82,7 +82,7 @@ export default function Markdown({ content }: MarkdownProps) {
                   <span>{copiedIndex === currentIndex ? "Copied" : "Copy"}</span>
                 </button>
               </div>
-              <pre className="bg-[#080b11] p-4 overflow-x-auto text-[13px] font-mono text-gray-300 leading-relaxed max-h-[400px] w-full max-w-full block">
+              <pre className="markdown-pre p-4 overflow-x-auto font-mono leading-relaxed max-h-[400px] w-full max-w-full block">
                 <code>{blockText}</code>
               </pre>
             </div>
@@ -113,10 +113,10 @@ export default function Markdown({ content }: MarkdownProps) {
         const formattedText = formatInline(headerText);
 
         const classes = 
-          headerLevel === 1 ? "text-2xl font-bold text-white mt-6 mb-4 border-b border-glass pb-2" :
-          headerLevel === 2 ? "text-xl font-bold text-white mt-5 mb-3" :
-          headerLevel === 3 ? "text-lg font-bold text-gray-200 mt-4 mb-2" :
-          "text-md font-semibold text-gray-300 mt-3 mb-2";
+          headerLevel === 1 ? "markdown-h1 mt-6 mb-4 border-b pb-2" :
+          headerLevel === 2 ? "markdown-h2 mt-8 mb-4" :
+          headerLevel === 3 ? "markdown-h3 mt-6 mb-3" :
+          "markdown-h4 mt-4 mb-2";
 
         const HeadingTag = `h${Math.min(headerLevel + 1, 6)}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
         elements.push(
@@ -162,13 +162,13 @@ export default function Markdown({ content }: MarkdownProps) {
         }
 
         const quoteContentStr = quoteLines.join("<br/>");
-        const alertClass = 
-          alertType === "important" ? "bg-red-500/10 border-red-500/30 text-red-200" :
-          alertType === "warning" ? "bg-amber-500/10 border-amber-500/30 text-amber-200" :
-          "bg-[var(--accent-indigo)]/10 border-[var(--accent-indigo)]/30 text-[var(--accent-indigo)]";
+        const alertClass =
+          alertType === "important" ? "markdown-alert-important" :
+          alertType === "warning" ? "markdown-alert-warning" :
+          "markdown-alert-note";
 
         elements.push(
-          <div key={`alert-${key++}`} className={`p-4 rounded-lg border my-4 text-sm leading-relaxed ${alertClass}`}>
+          <div key={`alert-${key++}`} className={`markdown-alert p-4 rounded-lg border my-4 ${alertClass}`}>
             <span className="font-semibold uppercase tracking-wider text-[11px] block mb-1">
               {alertType === "important" ? "⚠ critical" : alertType === "warning" ? "✦ optimized tip" : "✦ system note"}
             </span>
@@ -196,7 +196,7 @@ export default function Markdown({ content }: MarkdownProps) {
         elements.push(
           <p
             key={`p-${key++}`}
-            className="text-secondary leading-relaxed mb-4 text-[14px]"
+            className="markdown-paragraph mb-4"
             dangerouslySetInnerHTML={{ __html: formatInline(line) }}
           />
         );
@@ -209,5 +209,5 @@ export default function Markdown({ content }: MarkdownProps) {
     return elements;
   };
 
-  return <div className="space-y-1">{parseMarkdown(content)}</div>;
+  return <div className="markdown-body space-y-1">{parseMarkdown(content)}</div>;
 }

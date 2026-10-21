@@ -121,7 +121,7 @@ export default function CodeViewer({
           ) : (
             <div className="h-full flex flex-col animate-fade-in">
               {rawContent ? (
-                <pre className="flex-1 bg-[#080a0f] border border-glass rounded-lg p-5 font-mono text-[13px] text-gray-300 overflow-auto scrollbar select-text leading-relaxed">
+                <pre className="source-code flex-1 border border-glass rounded-lg p-5 font-mono overflow-auto scrollbar select-text leading-relaxed">
                   <code>{rawContent}</code>
                 </pre>
               ) : (

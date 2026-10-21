@@ -38,7 +38,9 @@ import {
   Sun,
   Moon,
   Menu,
-  GitCompareArrows
+  GitCompareArrows,
+  Minus,
+  Plus
 } from "lucide-react";
 import TechMarquee from "@/components/TechMarquee";
 import CoverflowCarousel from "@/components/CoverflowCarousel";
@@ -164,6 +166,7 @@ export default function Home() {
 
   // Dark mode theme state
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [markdownFontSize, setMarkdownFontSize] = useState(16);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -171,7 +174,17 @@ export default function Home() {
     if (savedTheme) {
       setTheme(savedTheme);
     }
+    const savedMarkdownFontSize = Number(localStorage.getItem("repoxray_markdown_font_size"));
+    if (Number.isFinite(savedMarkdownFontSize) && savedMarkdownFontSize >= 14 && savedMarkdownFontSize <= 20) {
+      setMarkdownFontSize(savedMarkdownFontSize);
+    }
   }, []);
+
+  const adjustMarkdownFontSize = (delta: number) => {
+    const next = Math.min(20, Math.max(14, markdownFontSize + delta));
+    setMarkdownFontSize(next);
+    localStorage.setItem("repoxray_markdown_font_size", String(next));
+  };
 
   // Effect to apply the theme class to document element dynamically and save to localStorage
   useEffect(() => {
@@ -1468,7 +1481,7 @@ export default function Home() {
 
         {/* THE MAIN ACTIVE ANALYSIS DASHBOARD */}
         {selectedRepoUrl && report && !reportLoading && !pipelineStatus && (
-          <div className="flex-1 flex flex-col space-y-6 animate-fade-in">
+          <div className="flex-1 flex flex-col space-y-6 animate-fade-in" style={{ "--markdown-font-size": `${markdownFontSize}px` } as React.CSSProperties}>
             {/* Header Dashboard Info Bar */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-glass pb-6">
               <div>
@@ -1508,6 +1521,29 @@ export default function Home() {
 
               {/* Dynamic stats */}
               <div className="flex items-center gap-3 text-xs">
+                <div className="flex items-center gap-1 rounded-lg border border-glass p-1" aria-label="Report text size controls">
+                  <button
+                    type="button"
+                    onClick={() => adjustMarkdownFontSize(-1)}
+                    disabled={markdownFontSize <= 14}
+                    aria-label="Decrease report text size"
+                    title="Decrease report text size"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded text-secondary hover:bg-white/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-violet)] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    <span className="font-semibold">A</span><Minus size={11} />
+                  </button>
+                  <span className="sr-only" aria-live="polite">Report text size {markdownFontSize} pixels</span>
+                  <button
+                    type="button"
+                    onClick={() => adjustMarkdownFontSize(1)}
+                    disabled={markdownFontSize >= 20}
+                    aria-label="Increase report text size"
+                    title="Increase report text size"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded text-secondary hover:bg-white/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent-violet)] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    <span className="font-semibold">A</span><Plus size={11} />
+                  </button>
+                </div>
                 <div className="flex flex-col px-3 py-1.5 border border-glass rounded bg-white/[0.01] text-center">
                   <span className="text-white font-bold leading-none">{report.files.length}</span>
                   <span className="text-[9px] text-secondary uppercase font-bold tracking-wider mt-1">Code Files</span>
@@ -1581,12 +1617,12 @@ export default function Home() {
             <div className="flex-1 min-h-[400px]">
               {/* TAB 1: ARCHITECTURE OVERVIEW */}
               {activeTab === "overview" && (
-                <div className="glass-panel p-6 bg-white/[0.01] animate-fade-in space-y-6">
+                <div className="report-markdown-card glass-panel p-6 bg-white/[0.01] animate-fade-in space-y-6">
                   <div className="flex items-center gap-2 mb-2 text-[var(--accent-violet)]">
                     <Sparkles size={18} />
                     <h3 className="font-heading font-extrabold text-lg text-white">Master Architect Overview</h3>
                   </div>
-                  <div className="prose prose-invert max-w-none text-secondary">
+                  <div>
                     <Markdown content={report.global_overview} />
                   </div>
                 </div>
@@ -1596,12 +1632,12 @@ export default function Home() {
               {activeTab === "security" && (
                 <div className="space-y-6 animate-fade-in">
                   {/* Master Security Summary Report */}
-                  <div className="glass-panel p-6 bg-white/[0.01]">
+                  <div className="report-markdown-card glass-panel p-6 bg-white/[0.01]">
                     <div className="flex items-center gap-2 mb-4 text-rose-400">
                       <Shield size={18} />
                       <h3 className="font-heading font-extrabold text-lg text-white">Master Security Audit</h3>
                     </div>
-                    <div className="prose prose-invert max-w-none text-secondary">
+                    <div>
                       <Markdown content={report.security_audit} />
                     </div>
                   </div>
