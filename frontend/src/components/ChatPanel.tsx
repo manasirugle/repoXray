@@ -171,7 +171,7 @@ export default function ChatPanel({ repoUrl, user }: ChatPanelProps) {
               {msg.sender === "ai" ? (
                 <Markdown content={msg.text} />
               ) : (
-                <p className="text-white text-sm select-text whitespace-pre-wrap">{msg.text}</p>
+                <p className="text-sm select-text whitespace-pre-wrap">{msg.text}</p>
               )}
             </div>
 
